@@ -1,0 +1,10 @@
+name: "Hello World"
+description: "Greet someone and record the time"
+inputs:
+  token:
+    description: "token for github"
+  settings:
+    description: "your path & message config"
+runs:
+  using: "node20"
+  main: "../../../dist/index.min.js"

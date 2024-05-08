@@ -1,0 +1,13 @@
+- paths: src/components, src/utils
+  message: changes in **components** or **utils** folders have been made
+- paths: src/components
+  message: changes in **components** folder have been made
+- paths: src/utils
+  message: "Detected: changes in either **components** or **utils** folder have been made"
+- paths: "**/*.js"
+  message: |
+    ### Please tick the following checkboxes:
+
+    - [ ] the code is tested
+    - [ ] files are compressed
+    - [ ] files contain no errors
