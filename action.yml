@@ -3,8 +3,8 @@ description: "Greet someone and record the time"
 inputs:
   token:
     description: "token for github"
-  settings:
-    description: "your path & message config"
+  datapath:
+    description: "path for data yaml file"
 runs:
   using: "node20"
-  main: dist/index.min.js"
+  main: "dist/index.min.js"
