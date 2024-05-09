@@ -37444,7 +37444,7 @@ const postComment = async (
     const isCommentExisting = comments.some(
       (comment) =>
         comment.user.login === "github-actions[bot]" &&
-        utils_compareMarkdown(comment.body, message),
+        utils_compareMarkdown(comment.body, body),
     );
 
     if (!isCommentExisting) {

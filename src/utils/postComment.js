@@ -18,7 +18,7 @@ const postComment = async (
     const isCommentExisting = comments.some(
       (comment) =>
         comment.user.login === "github-actions[bot]" &&
-        compareMarkdown(comment.body, message),
+        compareMarkdown(comment.body, body),
     );
 
     if (!isCommentExisting) {
