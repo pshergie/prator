@@ -14,3 +14,4 @@ jobs:
         id: components-check
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          datapath: docs/comments-data.yml
