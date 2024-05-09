@@ -11,6 +11,7 @@ const postComment = async (
   octokit,
 ) => {
   let areTargetPathsChanged = checkDiff(paths, diffFilesPaths);
+  const body = signature ? `${signature}\n\n` + message : message;
 
   if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
@@ -23,7 +24,7 @@ const postComment = async (
       await octokit.rest.issues.createComment({
         ...context.repo,
         issue_number: pullNumber,
-        body: `${signature}\n\n` + message,
+        body,
       });
     }
   }
