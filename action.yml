@@ -4,7 +4,7 @@ inputs:
   token:
     description: "token for github"
   datapath:
-    description: "path for data yaml file"
+    description: "path to data yaml file"
 runs:
   using: "node20"
   main: "dist/index.min.js"
