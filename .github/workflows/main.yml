@@ -11,7 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Check component dependencies
-        uses: ./.github/actions/setup-composite
+        uses: ./
         id: components-check
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
