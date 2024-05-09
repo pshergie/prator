@@ -5,12 +5,12 @@ on:
 
 jobs:
   review:
-    name: post comment(s)
+    name: Post comment(s)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: analyse changes
+      - name: Analyse changes
         uses: ./
         id: auto-review-action
         with:
