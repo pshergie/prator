@@ -37413,21 +37413,7 @@ const checkDiff = (paths, diffFilesPaths) => {
 
 /* harmony default export */ const utils_checkDiff = (checkDiff);
 
-;// CONCATENATED MODULE: ./src/utils/compareMarkdown.js
-const compareMarkdown = (comment, message) => {
-  console.log("");
-  console.log("comment replaced", comment.replaceAll("- [x]", "- [ ]"));
-  console.log("message", message);
-  console.log("replaced", comment.replaceAll("- [x]", "- [ ]") === message);
-  console.log("not replaced", comment === message);
-  console.log("");
-  return comment.replaceAll("- [x]", "- [ ]") === message;
-};
-
-/* harmony default export */ const utils_compareMarkdown = (compareMarkdown);
-
 ;// CONCATENATED MODULE: ./src/utils/postComment.js
-
 
 
 const postComment = async (
@@ -37441,20 +37427,20 @@ const postComment = async (
   octokit,
 ) => {
   let areTargetPathsChanged = utils_checkDiff(paths, diffFilesPaths);
-  const body = signature ? `${signature}\n\n` + message : message;
+  const signaturedMessage = signature ? `${signature}\n\n` + message : message;
 
   if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
       (comment) =>
         comment.user.login === "github-actions[bot]" &&
-        utils_compareMarkdown(comment.body, body),
+        comment.body === signaturedMessage,
     );
 
     if (!isCommentExisting) {
       await octokit.rest.issues.createComment({
         ...context.repo,
         issue_number: pullNumber,
-        body,
+        body: signaturedMessage,
       });
     }
   }
