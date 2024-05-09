@@ -7,4 +7,4 @@ inputs:
     description: "your path & message config"
 runs:
   using: "node20"
-  main: ./dist/index.min.js"
+  main: dist/index.min.js"
