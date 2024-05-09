@@ -1,6 +1,7 @@
 import checkDiff from "./checkDiff.js";
 
 const postComment = async (
+  signature,
   paths,
   message,
   pullNumber,
@@ -22,7 +23,7 @@ const postComment = async (
       await octokit.rest.issues.createComment({
         ...context.repo,
         issue_number: pullNumber,
-        body: message,
+        body: `${signature}\n\n` + message,
       });
     }
   }

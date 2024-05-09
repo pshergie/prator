@@ -37417,6 +37417,7 @@ const checkDiff = (paths, diffFilesPaths) => {
 
 
 const postComment = async (
+  signature,
   paths,
   message,
   pullNumber,
@@ -37438,7 +37439,7 @@ const postComment = async (
       await octokit.rest.issues.createComment({
         ...context.repo,
         issue_number: pullNumber,
-        body: message,
+        body: `${signature}\n\n` + message,
       });
     }
   }
@@ -37467,6 +37468,7 @@ async function run() {
       }));
     const token = core.getInput("token");
     const octokit = github.getOctokit(token);
+    const signature = core.getInput("signature");
     const context = github.context;
     const pullNumber = context.payload.pull_request.number;
 
@@ -37476,6 +37478,7 @@ async function run() {
     settings.map(
       async ({ paths, message }) =>
         await utils_postComment(
+          signature,
           paths,
           message,
           pullNumber,
