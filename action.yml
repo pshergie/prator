@@ -1,5 +1,8 @@
 name: "pull-request-auto-reviewer"
 description: "auto post comments based on changes"
+branding:
+  icon: "message-square"
+  color: "yellow"
 inputs:
   token:
     description: "token for github"
