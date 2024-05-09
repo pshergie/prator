@@ -37413,17 +37413,16 @@ const checkDiff = (paths, diffFilesPaths) => {
 
 /* harmony default export */ const utils_checkDiff = (checkDiff);
 
+;// CONCATENATED MODULE: ./src/utils/compareMarkdown.js
+const compareMarkdown = (comment, message) => {
+  return comment.replaceAll("- [x]", "- [ ]") === message;
+};
+
+/* harmony default export */ const utils_compareMarkdown = (compareMarkdown);
+
 ;// CONCATENATED MODULE: ./src/utils/postComment.js
 
 
-const compareStrings = (comment, signaturedMessage) => {
-  console.log("comment.body", comment);
-  console.log("signaturedMessage", signaturedMessage);
-  console.log(comment === signaturedMessage);
-  console.log("");
-
-  return comment === signaturedMessage;
-};
 
 const postComment = async (
   signature,
@@ -37442,7 +37441,7 @@ const postComment = async (
     const isCommentExisting = comments.some(
       (comment) =>
         comment.user.login === "github-actions[bot]" &&
-        compareStrings(comment.body, signaturedMessage),
+        utils_compareMarkdown(comment.body, signaturedMessage),
     );
 
     if (!isCommentExisting) {
