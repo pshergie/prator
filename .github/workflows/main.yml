@@ -17,3 +17,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           datapath: docs/data.yml
+          signature: "🗯️ [pull-request-auto-reviewer]:"

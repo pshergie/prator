@@ -18,6 +18,7 @@ async function run() {
       }));
     const token = core.getInput("token");
     const octokit = github.getOctokit(token);
+    const signature = core.getInput("signature");
     const context = github.context;
     const pullNumber = context.payload.pull_request.number;
 
@@ -27,6 +28,7 @@ async function run() {
     settings.map(
       async ({ paths, message }) =>
         await postComment(
+          signature,
           paths,
           message,
           pullNumber,

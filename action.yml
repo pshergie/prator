@@ -9,6 +9,8 @@ inputs:
     description: "token for github"
   datapath:
     description: "path to data yaml file"
+  signature:
+    description: a string that prepends to the message
 runs:
   using: "node20"
   main: "dist/index.js"

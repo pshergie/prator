@@ -37413,10 +37413,19 @@ const checkDiff = (paths, diffFilesPaths) => {
 
 /* harmony default export */ const utils_checkDiff = (checkDiff);
 
+;// CONCATENATED MODULE: ./src/utils/compareMarkdown.js
+const compareMarkdown = (comment, message) => {
+  return comment.replaceAll("- [x]", "- [ ]") === message;
+};
+
+/* harmony default export */ const utils_compareMarkdown = (compareMarkdown);
+
 ;// CONCATENATED MODULE: ./src/utils/postComment.js
 
 
+
 const postComment = async (
+  signature,
   paths,
   message,
   pullNumber,
@@ -37426,19 +37435,20 @@ const postComment = async (
   octokit,
 ) => {
   let areTargetPathsChanged = utils_checkDiff(paths, diffFilesPaths);
+  const signaturedMessage = signature ? `${signature}\n\n` + message : message;
 
   if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
       (comment) =>
         comment.user.login === "github-actions[bot]" &&
-        comment.body === message,
+        utils_compareMarkdown(comment.body, signaturedMessage),
     );
 
     if (!isCommentExisting) {
       await octokit.rest.issues.createComment({
         ...context.repo,
         issue_number: pullNumber,
-        body: message,
+        body: signaturedMessage,
       });
     }
   }
@@ -37467,6 +37477,7 @@ async function run() {
       }));
     const token = core.getInput("token");
     const octokit = github.getOctokit(token);
+    const signature = core.getInput("signature");
     const context = github.context;
     const pullNumber = context.payload.pull_request.number;
 
@@ -37476,6 +37487,7 @@ async function run() {
     settings.map(
       async ({ paths, message }) =>
         await utils_postComment(
+          signature,
           paths,
           message,
           pullNumber,
