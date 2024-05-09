@@ -10,4 +10,4 @@ inputs:
     description: "path to data yaml file"
 runs:
   using: "node20"
-  main: "dist/index.min.js"
+  main: "dist/index.js"
