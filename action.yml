@@ -1,10 +1,10 @@
-name: "Hello World"
-description: "Greet someone and record the time"
+name: "auto review action"
+description: "auto post comments based on changes"
 inputs:
   token:
     description: "token for github"
-  settings:
-    description: "your path & message config"
+  datapath:
+    description: "path to data yaml file"
 runs:
   using: "node20"
-  main: ./dist/index.min.js"
+  main: "dist/index.min.js"

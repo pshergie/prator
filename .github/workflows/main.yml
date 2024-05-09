@@ -2,17 +2,18 @@ on:
   pull_request:
     branches:
       - main
+      - master
 
 jobs:
-  comment:
-    name: job to post comment(s)
+  review:
+    name: Post comment(s)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Check component dependencies
-        uses: ./.github/actions/setup-composite
-        id: components-check
+      - name: Analyse changes
+        uses: ./
+        id: auto-review-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           datapath: docs/data.yml
