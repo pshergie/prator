@@ -1,4 +1,4 @@
-name: "auto review action"
+name: "pull-request-auto-reviewer"
 description: "auto post comments based on changes"
 inputs:
   token:
