@@ -1,5 +1,6 @@
 name: "pull-request-auto-reviewer"
 description: "auto post comments based on changes"
+author: pshergie
 branding:
   icon: "message-square"
   color: "yellow"
