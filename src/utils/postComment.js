@@ -1,5 +1,14 @@
 import checkDiff from "./checkDiff.js";
 
+const compareStrings = (comment, signaturedMessage) => {
+  console.log("comment.body", comment);
+  console.log("signaturedMessage", signaturedMessage);
+  console.log(comment === signaturedMessage);
+  console.log("");
+
+  return comment === signaturedMessage
+}
+
 const postComment = async (
   signature,
   paths,
@@ -14,18 +23,14 @@ const postComment = async (
   const signaturedMessage = signature ? `${signature}\n\n` + message : message;
 
   if (areTargetPathsChanged) {
-    const isCommentExisting = comments.some(
-      (comment) => {
-        console.log('comment.body', comment.body);
-        console.log('signaturedMessage', signaturedMessage);
-        console.log(comment.body === signaturedMessage);
-        console.log('');
+    const isCommentExisting = comments.some((comment) => {
+      console.log("comment.body", comment.body);
+      console.log("signaturedMessage", signaturedMessage);
+      console.log(comment.body === signaturedMessage);
+      console.log("");
 
-        return comment.user.login === "github-actions[bot]" &&
-        comment.body === signaturedMessage,
-      }
-
-    );
+      return comment.user.login === "github-actions[bot]" && compareStrings(comment.body, signaturedMessage),
+    });
 
     if (!isCommentExisting) {
       await octokit.rest.issues.createComment({
