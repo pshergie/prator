@@ -5,6 +5,7 @@ on:
 
 jobs:
   comment:
+    name: job to post comment(s)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -14,4 +15,4 @@ jobs:
         id: components-check
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          datapath: docs/comments-data.yml
+          datapath: docs/data.yml
