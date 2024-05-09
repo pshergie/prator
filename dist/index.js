@@ -37457,7 +37457,7 @@ const fs = __nccwpck_require__(7147);
 
 
 async function run() {
-  consol.log("testing..");
+  console.log("testing..");
   try {
     const datapath = core.getInput("datapath");
     const settings = yaml
