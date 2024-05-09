@@ -1,4 +1,5 @@
 import checkDiff from "./checkDiff.js";
+import compareMarkdown from "./compareMarkdown.js";
 
 const postComment = async (
   signature,
@@ -17,7 +18,7 @@ const postComment = async (
     const isCommentExisting = comments.some(
       (comment) =>
         comment.user.login === "github-actions[bot]" &&
-        comment.body === message,
+        compareMarkdown(comment.body, message),
     );
 
     if (!isCommentExisting) {
