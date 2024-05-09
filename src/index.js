@@ -8,6 +8,7 @@ import fetchDiffFiles from "./utils/fetchDiffFiles.js";
 import postComment from "./utils/postComment.js";
 
 async function run() {
+  consol.log("testing..");
   try {
     const datapath = core.getInput("datapath");
     const settings = yaml
