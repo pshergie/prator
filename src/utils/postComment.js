@@ -15,9 +15,16 @@ const postComment = async (
 
   if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
-      (comment) =>
-        comment.user.login === "github-actions[bot]" &&
+      (comment) => {
+        console.log('comment.body', comment.body);
+        console.log('signaturedMessage', signaturedMessage);
+        console.log(comment.body === signaturedMessage);
+        console.log('');
+
+        return comment.user.login === "github-actions[bot]" &&
         comment.body === signaturedMessage,
+      }
+
     );
 
     if (!isCommentExisting) {
