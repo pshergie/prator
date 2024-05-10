@@ -11,7 +11,6 @@ import getDatapath from "./utils/getDatapath.js";
 async function run() {
   try {
     const datapath = getDatapath(core);
-    console.log("datapath", datapath);
     const settings = yaml.load(fs.readFileSync(datapath, "utf8"));
     console.log("settings", settings);
     const { prependMsg } = settings;
@@ -19,6 +18,7 @@ async function run() {
       ...config,
       paths: config.paths.split(",").map((p) => p.trim()),
     }));
+    console.log("checks", checks);
     const token = core.getInput("token");
     const octokit = github.getOctokit(token);
     const context = github.context;
