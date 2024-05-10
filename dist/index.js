@@ -37518,6 +37518,7 @@ const fs = __nccwpck_require__(7147);
 async function run() {
   try {
     const datapath = getDatapath_default()(core);
+    console.log("datapath", datapath);
     const settings = yaml.load(fs.readFileSync(datapath, "utf8"));
     console.log("settings", settings);
     const { prependMsg } = settings;

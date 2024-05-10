@@ -11,6 +11,7 @@ import getDatapath from "./utils/getDatapath.js";
 async function run() {
   try {
     const datapath = getDatapath(core);
+    console.log("datapath", datapath);
     const settings = yaml.load(fs.readFileSync(datapath, "utf8"));
     console.log("settings", settings);
     const { prependMsg } = settings;
