@@ -8,6 +8,8 @@ This GitHub action post comments based on pull request changes
 
 ## Setup
 
+**Important**: in order for action to work you need to give GitHub actions a permission to read and write, otherwise it will throw `RequestError [HttpError]: Resource not accessible by integration`. You can change the repository setting there: `Settings` -> `Actions` -> `General` -> `Workflow permissions`
+
 This action receives 3 params (2 of them are required):
 
 - `token`: your GitHub token
