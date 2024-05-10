@@ -7,3 +7,5 @@ const getDatapath = (core) => {
 
   return datapath;
 };
+
+export default getDatapath;
