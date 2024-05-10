@@ -5,3 +5,5 @@
     - [ ] Don’t rush. Check all changes in PR again.
     - [ ] Run `pnpm test`.
     - [ ] No new errors and warning in the browser console.
+- paths: src/utils, src/components
+  message: changes in **utils** and **components** require to follow project guildelines
