@@ -16,7 +16,7 @@ This action receives 3 params (2 of them are required):
 
 A typical setting may look like this:
 
-```
+```yaml
 - name: pull-request-auto-reviewer
   uses: pshergie/pull-request-auto-reviewer@1.1
   with:
