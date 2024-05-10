@@ -37486,14 +37486,11 @@ async function run() {
     const [prependData, checksData] = yaml.load(
       fs.readFileSync(datapath, "utf8"),
     );
-    console.log("prependData", prependData);
-    console.log("checksData", checksData);
     const { prependMsg } = prependData;
     const checks = checksData?.checks.map((config) => ({
       ...config,
       paths: config.paths.split(",").map((p) => p.trim()),
     }));
-    console.log("checks", checks);
     const token = core.getInput("token");
     const octokit = github.getOctokit(token);
     const context = github.context;
