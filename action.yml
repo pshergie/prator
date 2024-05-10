@@ -11,9 +11,6 @@ inputs:
   datapath:
     description: "path to data yaml file"
     required: true
-  signature:
-    description: a string that prepends to the message
-    default: "🗯️ [pull-request-auto-reviewer]:"
 runs:
   using: "node20"
   main: "dist/index.js"

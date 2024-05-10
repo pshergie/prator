@@ -37425,7 +37425,7 @@ const compareMarkdown = (comment, message) => {
 
 
 const postComment = async (
-  signature,
+  prependMsg,
   paths,
   message,
   pullNumber,
@@ -37435,26 +37435,39 @@ const postComment = async (
   octokit,
 ) => {
   let areTargetPathsChanged = utils_checkDiff(paths, diffFilesPaths);
-  const signaturedMessage = signature ? `${signature}\n\n` + message : message;
+  const body = prependMsg ? `${prependMsg}\n\n` + message : message;
 
   if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
       (comment) =>
         comment.user.login === "github-actions[bot]" &&
-        utils_compareMarkdown(comment.body, signaturedMessage),
+        utils_compareMarkdown(comment.body, body),
     );
 
     if (!isCommentExisting) {
       await octokit.rest.issues.createComment({
         ...context.repo,
         issue_number: pullNumber,
-        body: signaturedMessage,
+        body,
       });
     }
   }
 };
 
 /* harmony default export */ const utils_postComment = (postComment);
+
+;// CONCATENATED MODULE: ./src/utils/getDatapath.js
+const getDatapath = (core) => {
+  const datapath = core.getInput("datapath");
+
+  if (!datapath) {
+    throw new Error("The datapath variable is empty, please provide it.");
+  }
+
+  return datapath;
+};
+
+/* harmony default export */ const utils_getDatapath = (getDatapath);
 
 ;// CONCATENATED MODULE: ./src/index.js
 const core = __nccwpck_require__(5127);
@@ -37466,28 +37479,30 @@ const fs = __nccwpck_require__(7147);
 
 
 
+
 async function run() {
   try {
-    const datapath = core.getInput("datapath");
-    const settings = yaml
-      .load(fs.readFileSync(datapath, "utf8"))
-      .map((config) => ({
-        ...config,
-        paths: config.paths.split(",").map((p) => p.trim()),
-      }));
+    const datapath = utils_getDatapath(core);
+    const [prependData, checksData] = yaml.load(
+      fs.readFileSync(datapath, "utf8"),
+    );
+    const { prependMsg } = prependData;
+    const checks = checksData?.checks.map((config) => ({
+      ...config,
+      paths: config.paths.split(",").map((p) => p.trim()),
+    }));
     const token = core.getInput("token");
     const octokit = github.getOctokit(token);
-    const signature = core.getInput("signature");
     const context = github.context;
     const pullNumber = context.payload.pull_request.number;
 
     const comments = await utils_fetchComments(context, pullNumber, octokit);
     const diffFilesPaths = await utils_fetchDiffFiles(context, pullNumber, octokit);
 
-    settings.map(
+    checks.map(
       async ({ paths, message }) =>
         await utils_postComment(
-          signature,
+          prependMsg,
           paths,
           message,
           pullNumber,

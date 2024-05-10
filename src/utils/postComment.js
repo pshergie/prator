@@ -2,7 +2,7 @@ import checkDiff from "./checkDiff.js";
 import compareMarkdown from "./compareMarkdown.js";
 
 const postComment = async (
-  signature,
+  prependMsg,
   paths,
   message,
   pullNumber,
@@ -12,20 +12,20 @@ const postComment = async (
   octokit,
 ) => {
   let areTargetPathsChanged = checkDiff(paths, diffFilesPaths);
-  const signaturedMessage = signature ? `${signature}\n\n` + message : message;
+  const body = prependMsg ? `${prependMsg}\n\n` + message : message;
 
   if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
       (comment) =>
         comment.user.login === "github-actions[bot]" &&
-        compareMarkdown(comment.body, signaturedMessage),
+        compareMarkdown(comment.body, body),
     );
 
     if (!isCommentExisting) {
       await octokit.rest.issues.createComment({
         ...context.repo,
         issue_number: pullNumber,
-        body: signaturedMessage,
+        body,
       });
     }
   }
