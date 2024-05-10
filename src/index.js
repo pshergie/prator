@@ -13,6 +13,7 @@ async function run() {
     const datapath = getDatapath(core);
     const settings = yaml.load(fs.readFileSync(datapath, "utf8"));
     console.log("settings", settings);
+    console.log("checks", settings.checks);
     const { prependMsg } = settings;
     const checks = settings?.checks.map((config) => ({
       ...config,
