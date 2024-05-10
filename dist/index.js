@@ -556,8 +556,8 @@ class OidcClient {
             const res = yield httpclient
                 .getJson(id_token_url)
                 .catch(error => {
-                throw new Error(`Failed to get ID Token. \n
-        Error Code : ${error.statusCode}\n
+                throw new Error(`Failed to get ID Token. \n 
+        Error Code : ${error.statusCode}\n 
         Error Message: ${error.message}`);
             });
             const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
@@ -6138,7 +6138,7 @@ function expand(str, isTop) {
     ? expand(m.post, false)
     : [''];
 
-  if (/\$$/.test(m.pre)) {
+  if (/\$$/.test(m.pre)) {    
     for (var k = 0; k < post.length; k++) {
       var expansion = pre+ '{' + m.body + '}' + post[k];
       expansions.push(expansion);
@@ -33576,6 +33576,22 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 5000:
+/***/ (() => {
+
+const getDatapath = (core) => {
+  const datapath = core.getInput("datapath");
+
+  if (!datapath) {
+    throw new Error("The datapath variable is empty, please provide it.");
+  }
+
+  return datapath;
+};
+
+
+/***/ }),
+
 /***/ 9491:
 /***/ ((module) => {
 
@@ -35890,7 +35906,7 @@ class AST {
                         const aps = addPatternStart;
                         // check if we have a possibility of matching . or ..,
                         // and prevent that.
-                        const needNoTrav =
+                        const needNoTrav = 
                         // dots are allowed, and the pattern starts with [ or .
                         (dot && aps.has(src.charAt(0))) ||
                             // the pattern starts with \., and then [ or .
@@ -37291,7 +37307,7 @@ exports.unescape = unescape;
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/
+/******/ 	
 /******/ 	// The require function
 /******/ 	function __nccwpck_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -37305,7 +37321,7 @@ exports.unescape = unescape;
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/
+/******/ 	
 /******/ 		// Execute the module function
 /******/ 		var threw = true;
 /******/ 		try {
@@ -37314,12 +37330,41 @@ exports.unescape = unescape;
 /******/ 		} finally {
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
-/******/
+/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
+/******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__nccwpck_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__nccwpck_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__nccwpck_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -37330,11 +37375,11 @@ exports.unescape = unescape;
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/compat */
-/******/
+/******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
-/******/
+/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
@@ -37456,6 +37501,9 @@ const postComment = async (
 
 /* harmony default export */ const utils_postComment = (postComment);
 
+// EXTERNAL MODULE: ./src/utils/getDatapath.js
+var getDatapath = __nccwpck_require__(5000);
+var getDatapath_default = /*#__PURE__*/__nccwpck_require__.n(getDatapath);
 ;// CONCATENATED MODULE: ./src/index.js
 const core = __nccwpck_require__(5127);
 const github = __nccwpck_require__(3134);
@@ -37466,25 +37514,26 @@ const fs = __nccwpck_require__(7147);
 
 
 
+
 async function run() {
   try {
-    const datapath = core.getInput("datapath");
-    const settings = yaml
-      .load(fs.readFileSync(datapath, "utf8"))
-      .map((config) => ({
-        ...config,
-        paths: config.paths.split(",").map((p) => p.trim()),
-      }));
+    const datapath = getDatapath_default()(core);
+    const settings = yaml.load(fs.readFileSync(datapath, "utf8"));
+    console.log("settings", settings);
+    const { prependMsg } = settings;
+    const checks = settings?.checks.map((config) => ({
+      ...config,
+      paths: config.paths.split(",").map((p) => p.trim()),
+    }));
     const token = core.getInput("token");
     const octokit = github.getOctokit(token);
-    const prependMsg = core.getInput("prependMsg");
     const context = github.context;
     const pullNumber = context.payload.pull_request.number;
 
     const comments = await utils_fetchComments(context, pullNumber, octokit);
     const diffFilesPaths = await utils_fetchDiffFiles(context, pullNumber, octokit);
 
-    settings.map(
+    checks.map(
       async ({ paths, message }) =>
         await utils_postComment(
           prependMsg,
