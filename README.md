@@ -18,7 +18,7 @@ A typical setting may look like this:
 
 ```yaml
 - name: pull-request-auto-reviewer
-  uses: pshergie/pull-request-auto-reviewer@1.1
+  uses: pshergie/pull-request-auto-reviewer@1.2
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
     datapath: docs/data.yml
