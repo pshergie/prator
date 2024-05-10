@@ -11,25 +11,24 @@ import getDatapath from "./utils/getDatapath.js";
 async function run() {
   try {
     const datapath = getDatapath(core);
-    const settings = yaml
-      .load(fs.readFileSync(datapath, "utf8"))
-      .map((config) => ({
-        ...config,
-        paths: config.paths.split(",").map((p) => p.trim()),
-      }));
+    const settings = yaml.load(fs.readFileSync(datapath, "utf8"));
+    const { prependMsg } = settings;
+    const checks = settings?.checks.map((config) => ({
+      ...config,
+      paths: config.paths.split(",").map((p) => p.trim()),
+    }));
     const token = core.getInput("token");
     const octokit = github.getOctokit(token);
-    const signature = core.getInput("signature");
     const context = github.context;
     const pullNumber = context.payload.pull_request.number;
 
     const comments = await fetchComments(context, pullNumber, octokit);
     const diffFilesPaths = await fetchDiffFiles(context, pullNumber, octokit);
 
-    settings.map(
+    checks.map(
       async ({ paths, message }) =>
         await postComment(
-          signature,
+          prependMsg,
           paths,
           message,
           pullNumber,
