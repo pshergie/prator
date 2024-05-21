@@ -20,7 +20,6 @@ jobs:
           name: my-diff
           repository: ${{ github.repository_owner }}/${{ github.event.repository.name }}
           run-id: ${{ github.event.workflow_run.id }}
-<<<<<<< HEAD
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download PR Comments Artifact
