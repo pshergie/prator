@@ -19,7 +19,7 @@ jobs:
       - name: Print out diff
         shell: bash
         run: |
-          value=`cat diff.txt`
+          value=`cat my_diff.txt`
           echo $value
 
       - name: Upload Diff as Artifact
