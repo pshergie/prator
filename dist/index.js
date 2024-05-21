@@ -37482,6 +37482,10 @@ const fs = __nccwpck_require__(7147);
 
 async function run() {
   try {
+    const diffData = fs.readFileSync('./my_diff.txt', "utf8");
+    console.log('');
+    console.log('diff data: ', diffData);
+    console.log("");
     const datapath = utils_getDatapath(core);
     const [prependData, checksData] = yaml.load(
       fs.readFileSync(datapath, "utf8"),

@@ -1,0 +1,23 @@
+name: Diff Compile
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  upload-diff:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate Diff
+        run: git diff --name-only > my_diff.txt
+
+      - name: Upload Diff as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my_diff
+          path: my_diff.txt

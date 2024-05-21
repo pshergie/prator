@@ -1,0 +1,27 @@
+name: Auto Review Comment
+
+on:
+  workflow_run:
+    workflows:
+      - Diff Compile
+    types:
+      - completed
+
+jobs:
+  upload-diff:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Download Diff Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: my_diff
+          path: diffs/
+      - name: Analyze changes
+        uses: ./
+        id: auto-review-action
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          datapath: docs/data.yml
