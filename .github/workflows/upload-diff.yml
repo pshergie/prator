@@ -16,6 +16,12 @@ jobs:
       - name: Generate Diff
         run: git diff --name-only > my_diff.txt
 
+      - name: Print out diff
+        shell: bash
+        run: |
+          value=`cat diff.txt`
+          echo $value
+
       - name: Upload Diff as Artifact
         uses: actions/upload-artifact@v4
         with:
