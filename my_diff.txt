@@ -1,3 +1,0 @@
-.github/workflows/auto-review-comment.yml
-.github/workflows/upload-diff.yml
-src/index.js
