@@ -9,6 +9,7 @@ import getDatapath from "./utils/getDatapath.js";
 async function run() {
   try {
     const artifactsPath = core.getInput('artifacts-path');
+
     const datapath = getDatapath(core);
     const [prependData, checksData] = yaml.load(
       fs.readFileSync(datapath, "utf8"),
