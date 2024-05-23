@@ -33576,6 +33576,14 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 2002:
+/***/ ((module) => {
+
+module.exports = eval("require")("./utils/fetchDiffFiles.js");
+
+
+/***/ }),
+
 /***/ 9491:
 /***/ ((module) => {
 
@@ -37368,32 +37376,8 @@ const fetchComments = async (context, pullNumber, octokit) => {
 
 /* harmony default export */ const utils_fetchComments = (fetchComments);
 
-;// CONCATENATED MODULE: ./src/utils/fetchDiffFiles.js
-const fetchDiffFiles = async (context, pullNumber, octokit) => {
-  let data = [];
-  let pagesRemaining = true;
-  let page = 1;
-
-  while (pagesRemaining) {
-    const response = await octokit.rest.pulls.listFiles({
-      ...context.repo,
-      pull_number: pullNumber,
-      per_page: 100,
-      page,
-    });
-
-    const parsedData = response.data.map((diff) => diff.filename);
-    data = [...data, ...parsedData];
-    const linkHeader = response.headers.link;
-    pagesRemaining = linkHeader && linkHeader.includes(`rel=\"next\"`);
-    page++;
-  }
-
-  return data;
-};
-
-/* harmony default export */ const utils_fetchDiffFiles = (fetchDiffFiles);
-
+// EXTERNAL MODULE: ../../../../usr/local/lib/node_modules/@vercel/ncc/dist/ncc/@@notfound.js?./utils/fetchDiffFiles.js
+var fetchDiffFiles = __nccwpck_require__(2002);
 ;// CONCATENATED MODULE: ./src/utils/checkDiff.js
 const { minimatch } = __nccwpck_require__(5072);
 
@@ -37482,13 +37466,6 @@ const fs = __nccwpck_require__(7147);
 
 async function run() {
   try {
-    const diffData = fs.readFileSync('my_diff.txt', "utf8");
-    console.log('');
-    console.log('data type:', typeof diffData);
-    console.log('diff data: ', diffData);
-    console.log('===============================')
-    console.log(diffData.split('\n'))
-    console.log('');
     const datapath = utils_getDatapath(core);
     const [prependData, checksData] = yaml.load(
       fs.readFileSync(datapath, "utf8"),
@@ -37502,9 +37479,8 @@ async function run() {
     const octokit = github.getOctokit(token);
     const context = github.context;
     const pullNumber = context.payload.pull_request.number;
-
     const comments = await utils_fetchComments(context, pullNumber, octokit);
-    const diffFilesPaths = await utils_fetchDiffFiles(context, pullNumber, octokit);
+    const diffFilesPaths = fs.readFileSync('my_diff.txt', "utf8")?.split('\n').filter(Boolean);
 
     checks.map(
       async ({ paths, message }) =>
