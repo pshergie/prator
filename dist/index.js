@@ -37455,6 +37455,7 @@ const fs = __nccwpck_require__(7147);
 
 async function run() {
   try {
+    console.log('starting...');
     const datapath = utils_getDatapath(core);
     const [prependData, checksData] = yaml.load(
       fs.readFileSync(datapath, "utf8"),
@@ -37469,7 +37470,9 @@ async function run() {
     const context = github.context;
     const pullNumber = context.payload.pull_request.number;
     const comments = await utils_fetchComments(context, pullNumber, octokit);
+    console.log('fetching diff...')
     const diffFilesPaths = fs.readFileSync('my_diff.txt', "utf8")?.split('\n').filter(Boolean);
+    console.log('diffFilesPaths', diffFilesPaths);
 
     checks.map(
       async ({ paths, message }) =>

@@ -9,6 +9,7 @@ import getDatapath from "./utils/getDatapath.js";
 
 async function run() {
   try {
+    console.log('starting...');
     const datapath = getDatapath(core);
     const [prependData, checksData] = yaml.load(
       fs.readFileSync(datapath, "utf8"),
@@ -23,7 +24,9 @@ async function run() {
     const context = github.context;
     const pullNumber = context.payload.pull_request.number;
     const comments = await fetchComments(context, pullNumber, octokit);
+    console.log('fetching diff...')
     const diffFilesPaths = fs.readFileSync('my_diff.txt', "utf8")?.split('\n').filter(Boolean);
+    console.log('diffFilesPaths', diffFilesPaths);
 
     checks.map(
       async ({ paths, message }) =>
