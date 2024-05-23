@@ -18,7 +18,7 @@ jobs:
         run: echo "${{ github.event.pull_request.number }}" > pr_number.txt
 
       - name: Generate Diff
-        run: git diff ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} --name-only > my_diff.txt
+        run: git diff ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} --name-only > pr_diff.txt
 
       - name: Print out diff
         shell: bash
