@@ -12,8 +12,11 @@ async function run() {
   try {
     const diffData = fs.readFileSync('my_diff.txt', "utf8");
     console.log('');
+    console.log('data type:', typeof diffData);
     console.log('diff data: ', diffData);
-    console.log("");
+    console.log('===============================')
+    console.log(diffData.split('\n'))
+    console.log('');
     const datapath = getDatapath(core);
     const [prependData, checksData] = yaml.load(
       fs.readFileSync(datapath, "utf8"),
