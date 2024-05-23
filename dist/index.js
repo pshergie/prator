@@ -37457,20 +37457,28 @@ async function run() {
   try {
     console.log('starting...');
     const datapath = utils_getDatapath(core);
+    console.log('datapath', datapath);
+
     const [prependData, checksData] = yaml.load(
       fs.readFileSync(datapath, "utf8"),
     );
+    console.log('prependData', prependData);
+    console.log('checksData', checksData);
+
     const { prependMsg } = prependData;
+    console.log('prependMsg', prependMsg);
     const checks = checksData?.checks?.map((config) => ({
       ...config,
       paths: config.paths.split(",").map((p) => p.trim()),
     }));
+    console.log('checks', checks);
+
     const token = core.getInput("token");
     const octokit = github.getOctokit(token);
     const context = github.context;
     const pullNumber = context.payload.pull_request.number;
     const comments = await utils_fetchComments(context, pullNumber, octokit);
-    console.log('fetching diff...')
+    console.log('comments', comments);
     const diffFilesPaths = fs.readFileSync('my_diff.txt', "utf8")?.split('\n').filter(Boolean);
     console.log('diffFilesPaths', diffFilesPaths);
 
@@ -37488,15 +37496,6 @@ async function run() {
         ),
     );
   } catch (error) {
-    console.log('prependMsg', prependMsg);
-    console.log('checksData', checksData);
-    console.log('checks', checks);
-    console.log('paths', paths);
-    console.log('checks', checks);
-    console.log('message', message);
-    console.log('pullNumber', pullNumber)
-    console.log('diffFilesPaths', diffFilesPaths)
-
     core.setFailed(error.message);
   }
 }
