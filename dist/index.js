@@ -37460,7 +37460,7 @@ async function run() {
     console.log('oktokit extracted');
     const context = github.context;
     console.log('context extracted');
-    const pullNumber = context?.payload?.pull_request?.number;
+    const pullNumber = fs.readFileSync('pr_number.txt', "utf8");
     console.log('pullNumber: ', pullNumber);
 
     const diffFilesPaths = fs.readFileSync('my_diff.txt', "utf8")?.split('\n').filter(Boolean);

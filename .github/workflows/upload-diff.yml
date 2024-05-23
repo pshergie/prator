@@ -14,6 +14,9 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Save PR number
+        run: echo "${{ github.event.pull_request.number }}" > pr_number.txt
+
       - name: Generate Diff
         run: git diff ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} --name-only > my_diff.txt
 
@@ -51,3 +54,9 @@ jobs:
         with:
           name: pr-comments
           path: pr_comments.json
+
+      - name: Upload PR Number as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-number
+          path: pr_number.txt

@@ -30,6 +30,14 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Download PR Number Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pr-number
+          repository: ${{ github.repository_owner }}/${{ github.event.repository.name }}
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Analyze changes
         uses: ./
         id: auto-review-action
