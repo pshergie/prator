@@ -8,7 +8,7 @@ on:
       - completed
 
 jobs:
-  upload-diff:
+  auto-review:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,8 +17,10 @@ jobs:
       - name: Download Diff Artifact
         uses: actions/download-artifact@v4
         with:
-          name: my_diff
-          path: diffs/
+          name: my-diff
+          repository: ${{ github.repository_owner }}/${{ github.event.repository.name }}
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Analyze changes
         uses: ./
         id: auto-review-action
