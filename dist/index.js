@@ -37427,47 +37427,24 @@ const fs = __nccwpck_require__(7147);
 
 
 
-
 async function run() {
   try {
-    const diffData = fs.readFileSync('my_diff.txt', "utf8");
-
-    console.log('');
-    console.log('data type:', typeof diffData);
-    console.log('diff data: ', diffData);
-    console.log('');
-
     const datapath = utils_getDatapath(core);
-    console.log('datapath', datapath);
-
     const [prependData, checksData] = yaml.load(
       fs.readFileSync(datapath, "utf8"),
     );
-    console.log('prependData', prependData);
-    console.log('checksData', checksData);
-
     const { prependMsg } = prependData;
-    console.log('prependMsg', prependMsg);
     const checks = checksData?.checks?.map((config) => ({
       ...config,
       paths: config.paths.split(",").map((p) => p.trim()),
     }));
-    console.log('checks', checks);
 
     const token = core.getInput("token");
-    console.log("token extracted");
     const octokit = github.getOctokit(token);
-    console.log('oktokit extracted');
     const context = github.context;
-    console.log('context extracted');
-    const pullNumber = Number(fs.readFileSync('pr_number.txt', "utf8"));
-    console.log('pullNumber: ', pullNumber);
-
-    const diffFilesPaths = fs.readFileSync('my_diff.txt', "utf8")?.split('\n').filter(Boolean);
-    console.log('diffFilesPaths', diffFilesPaths);
-
+    const pullNumber = parseInt(fs.readFileSync('pr_number.txt', "utf8"), 10);
     const comments = JSON.parse(fs.readFileSync('pr_comments.json', "utf8"));
-    console.log('comments', comments);
+    const diffFilesPaths = fs.readFileSync('pr_diff.txt', "utf8")?.split('\n').filter(Boolean);
 
     checks.map(
       async ({ paths, message }) =>
