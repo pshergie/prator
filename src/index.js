@@ -37,10 +37,12 @@ async function run() {
     const octokit = github.getOctokit(token);
     const context = github.context;
     const pullNumber = context.payload.pull_request.number;
-    const comments = fs.readFileSync('pr_comments.txt', "utf8");
-    console.log('comments', comments);
+
     const diffFilesPaths = fs.readFileSync('my_diff.txt', "utf8")?.split('\n').filter(Boolean);
     console.log('diffFilesPaths', diffFilesPaths);
+
+    const comments = fs.readFileSync('pr_comments.txt', "utf8");
+    console.log('comments', comments);
 
     checks.map(
       async ({ paths, message }) =>

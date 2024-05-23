@@ -37431,10 +37431,12 @@ const fs = __nccwpck_require__(7147);
 async function run() {
   try {
     const diffData = fs.readFileSync('my_diff.txt', "utf8");
+
     console.log('');
     console.log('data type:', typeof diffData);
     console.log('diff data: ', diffData);
     console.log('');
+
     const datapath = utils_getDatapath(core);
     console.log('datapath', datapath);
 
@@ -37456,10 +37458,12 @@ async function run() {
     const octokit = github.getOctokit(token);
     const context = github.context;
     const pullNumber = context.payload.pull_request.number;
-    const comments = fs.readFileSync('pr_comments.txt', "utf8");
-    console.log('comments', comments);
+
     const diffFilesPaths = fs.readFileSync('my_diff.txt', "utf8")?.split('\n').filter(Boolean);
     console.log('diffFilesPaths', diffFilesPaths);
+
+    const comments = fs.readFileSync('pr_comments.txt', "utf8");
+    console.log('comments', comments);
 
     checks.map(
       async ({ paths, message }) =>
