@@ -23,7 +23,7 @@ async function run() {
     const context = github.context;
     const pullNumber = parseInt(fs.readFileSync('pr_number.txt', "utf8"), 10);
     const comments = JSON.parse(fs.readFileSync('pr_comments.json', "utf8"));
-    const diffFilesPaths = fs.readFileSync('my_diff.txt', "utf8")?.split('\n').filter(Boolean);
+    const diffFilesPaths = fs.readFileSync('my_diff.txt', "utf8").split('\n').filter(Boolean);
 
     checks.map(
       async ({ paths, message }) =>
