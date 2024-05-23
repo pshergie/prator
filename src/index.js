@@ -45,7 +45,7 @@ async function run() {
     const diffFilesPaths = fs.readFileSync('my_diff.txt', "utf8")?.split('\n').filter(Boolean);
     console.log('diffFilesPaths', diffFilesPaths);
 
-    const comments = fs.readFileSync('pr_comments.txt', "utf8");
+    const comments = JSON.parse(fs.readFileSync('pr_comments.json', "utf8"));
     console.log('comments', comments);
 
     checks.map(

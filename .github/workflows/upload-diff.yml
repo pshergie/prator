@@ -37,12 +37,12 @@ jobs:
       - name: Extract user and body from comments
         id: extract-comments
         run: |
-          jq -r '.[] | {user: .user.login, body: .body}' all_comments.json > pr_comments.txt
+          jq -r '.[] | {user: .user.login, body: .body}' all_comments.json
 
       - name: Print out comments
         shell: bash
         run: |
-          value=`cat pr_comments.txt`
+          value=`cat pr_comments.json`
           echo $value
 
       - name: Upload Diff as Artifact
@@ -55,4 +55,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pr-comments
-          path: pr_comments.txt
+          path: pr_comments.json
