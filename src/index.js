@@ -9,7 +9,11 @@ import getDatapath from "./utils/getDatapath.js";
 
 async function run() {
   try {
-    console.log('starting...');
+    const diffData = fs.readFileSync('my_diff.txt', "utf8");
+    console.log('');
+    console.log('data type:', typeof diffData);
+    console.log('diff data: ', diffData);
+    console.log('');
     const datapath = getDatapath(core);
     console.log('datapath', datapath);
 
@@ -31,7 +35,7 @@ async function run() {
     const octokit = github.getOctokit(token);
     const context = github.context;
     const pullNumber = context.payload.pull_request.number;
-    const comments = await fetchComments(context, pullNumber, octokit);
+    const comments = fs.readFileSync('pr_comments.txt', "utf8");
     console.log('comments', comments);
     const diffFilesPaths = fs.readFileSync('my_diff.txt', "utf8")?.split('\n').filter(Boolean);
     console.log('diffFilesPaths', diffFilesPaths);

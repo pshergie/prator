@@ -8,7 +8,6 @@ on:
 jobs:
   upload-diff:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,8 +23,37 @@ jobs:
           value=`cat my_diff.txt`
           echo $value
 
+      - name: Get PR comments
+        id: get-comments
+        run: |
+          pr_number=${{ github.event.pull_request.number }}
+          echo "PR Number: $pr_number"
+          comments=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                          -H "Accept: application/vnd.github+json" \
+                          -H "X-GitHub-Api-Version: 2022-11-28" \
+                          "https://api.github.com/repos/${{ github.repository }}/issues/$pr_number/comments")
+
+          echo "$comments" > all_comments.json
+
+      - name: Extract user and body from comments
+        id: extract-comments
+        run: |
+          jq -r '.[] | {user: .user.login, body: .body}' all_comments.json > pr_comments.txt
+
+      - name: Print out comments
+        shell: bash
+        run: |
+          value=`cat pr_comments.txt`
+          echo $value
+
       - name: Upload Diff as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: my-diff
           path: my_diff.txt
+
+      - name: Upload PR Comments as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-comments
+          path: pr_comments.txt

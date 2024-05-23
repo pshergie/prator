@@ -37343,31 +37343,6 @@ var __webpack_exports__ = {};
 // ESM COMPAT FLAG
 __nccwpck_require__.r(__webpack_exports__);
 
-;// CONCATENATED MODULE: ./src/utils/fetchComments.js
-const fetchComments = async (context, pullNumber, octokit) => {
-  let data = [];
-  let pagesRemaining = true;
-  let page = 1;
-
-  while (pagesRemaining) {
-    const response = await octokit.rest.issues.listComments({
-      ...context.repo,
-      issue_number: pullNumber,
-      per_page: 100,
-      page,
-    });
-
-    data = [...data, ...response.data];
-    const linkHeader = response.headers.link;
-    pagesRemaining = linkHeader && linkHeader.includes(`rel=\"next\"`);
-    page++;
-  }
-
-  return data;
-};
-
-/* harmony default export */ const utils_fetchComments = (fetchComments);
-
 ;// CONCATENATED MODULE: ./src/utils/checkDiff.js
 const { minimatch } = __nccwpck_require__(5072);
 
@@ -37414,7 +37389,7 @@ const postComment = async (
   if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
       (comment) =>
-        comment.user.login === "github-actions[bot]" &&
+        comment.user === "github-actions[bot]" &&
         utils_compareMarkdown(comment.body, body),
     );
 
@@ -37455,7 +37430,11 @@ const fs = __nccwpck_require__(7147);
 
 async function run() {
   try {
-    console.log('starting...');
+    const diffData = fs.readFileSync('my_diff.txt', "utf8");
+    console.log('');
+    console.log('data type:', typeof diffData);
+    console.log('diff data: ', diffData);
+    console.log('');
     const datapath = utils_getDatapath(core);
     console.log('datapath', datapath);
 
@@ -37477,7 +37456,7 @@ async function run() {
     const octokit = github.getOctokit(token);
     const context = github.context;
     const pullNumber = context.payload.pull_request.number;
-    const comments = await utils_fetchComments(context, pullNumber, octokit);
+    const comments = fs.readFileSync('pr_comments.txt', "utf8");
     console.log('comments', comments);
     const diffFilesPaths = fs.readFileSync('my_diff.txt', "utf8")?.split('\n').filter(Boolean);
     console.log('diffFilesPaths', diffFilesPaths);

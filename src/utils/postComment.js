@@ -17,7 +17,7 @@ const postComment = async (
   if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
       (comment) =>
-        comment.user.login === "github-actions[bot]" &&
+        comment.user === "github-actions[bot]" &&
         compareMarkdown(comment.body, body),
     );
 
