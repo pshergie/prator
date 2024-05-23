@@ -37455,9 +37455,13 @@ async function run() {
     console.log('checks', checks);
 
     const token = core.getInput("token");
+    console.log("token extracted");
     const octokit = github.getOctokit(token);
+    console.log('oktokit extracted');
     const context = github.context;
-    const pullNumber = context.payload.pull_request.number;
+    console.log('context extracted');
+    const pullNumber = context?.payload?.pull_request?.number;
+    console.log('pullNumber: ', pullNumber);
 
     const diffFilesPaths = fs.readFileSync('my_diff.txt', "utf8")?.split('\n').filter(Boolean);
     console.log('diffFilesPaths', diffFilesPaths);
