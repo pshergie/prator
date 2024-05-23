@@ -22,7 +22,7 @@ async function run() {
       fs.readFileSync(datapath, "utf8"),
     );
     const { prependMsg } = prependData;
-    const checks = checksData?.checks.map((config) => ({
+    const checks = checksData?.checks?.map((config) => ({
       ...config,
       paths: config.paths.split(",").map((p) => p.trim()),
     }));
