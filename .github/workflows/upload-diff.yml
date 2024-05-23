@@ -43,20 +43,11 @@ jobs:
           value=`cat pr_comments.json`
           echo $value
 
-      - name: Upload Diff as Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: my-diff
-          path: my_diff.txt
+      - name: Create artifact folder
+        run: mkdir -p auto_review_artifacts && mv pr_number.txt pr_comments.txt pr_diff.txt auto_review_artifacts/
 
-      - name: Upload PR Comments as Artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload PR details as artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: pr-comments
-          path: pr_comments.json
-
-      - name: Upload PR Number as Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: pr-number
-          path: pr_number.txt
+          name: auto-review-artifacts
+          path: auto_review_artifacts/
