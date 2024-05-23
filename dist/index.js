@@ -37488,6 +37488,15 @@ async function run() {
         ),
     );
   } catch (error) {
+    console.log('prependMsg', prependMsg);
+    console.log('checksData', checksData);
+    console.log('checks', checks);
+    console.log('paths', paths);
+    console.log('checks', checks);
+    console.log('message', message);
+    console.log('pullNumber', pullNumber)
+    console.log('diffFilesPaths', diffFilesPaths)
+
     core.setFailed(error.message);
   }
 }
