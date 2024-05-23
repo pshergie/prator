@@ -27,7 +27,6 @@ jobs:
         id: get-comments
         run: |
           pr_number=${{ github.event.pull_request.number }}
-          echo "PR Number: $pr_number"
           comments=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
                           -H "Accept: application/vnd.github+json" \
                           -H "X-GitHub-Api-Version: 2022-11-28" \

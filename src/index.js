@@ -10,10 +10,12 @@ import getDatapath from "./utils/getDatapath.js";
 async function run() {
   try {
     const diffData = fs.readFileSync('my_diff.txt', "utf8");
+
     console.log('');
     console.log('data type:', typeof diffData);
     console.log('diff data: ', diffData);
     console.log('');
+
     const datapath = getDatapath(core);
     console.log('datapath', datapath);
 
