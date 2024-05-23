@@ -23,7 +23,7 @@ jobs:
       - name: Print out diff
         shell: bash
         run: |
-          value=`cat my_diff.txt`
+          value=`cat pr_diff.txt`
           echo $value
 
       - name: Get PR comments
@@ -44,7 +44,7 @@ jobs:
           echo $value
 
       - name: Create artifact folder
-        run: mkdir -p auto_review_artifacts && mv pr_number.txt pr_comments.txt pr_diff.txt auto_review_artifacts/
+        run: mkdir -p auto_review_artifacts && mv pr_number.txt pr_comments.json pr_diff.txt auto_review_artifacts/
 
       - name: Upload PR details as artifact
         uses: actions/upload-artifact@v3
