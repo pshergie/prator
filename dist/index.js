@@ -33576,14 +33576,6 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 2002:
-/***/ ((module) => {
-
-module.exports = eval("require")("./utils/fetchDiffFiles.js");
-
-
-/***/ }),
-
 /***/ 9491:
 /***/ ((module) => {
 
@@ -37376,8 +37368,6 @@ const fetchComments = async (context, pullNumber, octokit) => {
 
 /* harmony default export */ const utils_fetchComments = (fetchComments);
 
-// EXTERNAL MODULE: ../../../../usr/local/lib/node_modules/@vercel/ncc/dist/ncc/@@notfound.js?./utils/fetchDiffFiles.js
-var fetchDiffFiles = __nccwpck_require__(2002);
 ;// CONCATENATED MODULE: ./src/utils/checkDiff.js
 const { minimatch } = __nccwpck_require__(5072);
 
@@ -37458,7 +37448,6 @@ const core = __nccwpck_require__(5127);
 const github = __nccwpck_require__(3134);
 const yaml = __nccwpck_require__(9818);
 const fs = __nccwpck_require__(7147);
-
 
 
 
