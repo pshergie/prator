@@ -8,6 +8,7 @@ import getDatapath from "./utils/getDatapath.js";
 
 async function run() {
   try {
+    const artifactsPath = core.getInput('artifacts-path');
     const datapath = getDatapath(core);
     const [prependData, checksData] = yaml.load(
       fs.readFileSync(datapath, "utf8"),
@@ -21,9 +22,9 @@ async function run() {
     const token = core.getInput("token");
     const octokit = github.getOctokit(token);
     const context = github.context;
-    const comments = JSON.parse(fs.readFileSync('auto_review_artifacts/pr_comments.json', "utf8"));
-    const pullNumber = parseInt(fs.readFileSync('auto_review_artifacts/pr_number.txt', "utf8"), 10);
-    const diffFilesPaths = fs.readFileSync('auto_review_artifacts/pr_diff.txt', "utf8")?.split('\n').filter(Boolean);
+    const comments = JSON.parse(fs.readFileSync(`${artifactsPath}pr_comments.json`, "utf8"));
+    const pullNumber = parseInt(fs.readFileSync(`${artifactsPath}pr_number.txt`, "utf8"), 10);
+    const diffFilesPaths = fs.readFileSync(`${artifactsPath}pr_diff.txt`, "utf8")?.split('\n').filter(Boolean);
 
     checks.map(
       async ({ paths, message }) =>

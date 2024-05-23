@@ -47,7 +47,7 @@ jobs:
         run: mkdir -p auto_review_artifacts && mv pr_number.txt pr_comments.json pr_diff.txt auto_review_artifacts/
 
       - name: Upload PR details as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: auto-review-artifacts
           path: auto_review_artifacts/

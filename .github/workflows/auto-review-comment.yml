@@ -30,5 +30,6 @@ jobs:
         uses: ./
         id: auto-review-action
         with:
+          artifacts-path: auto_review_artifacts/
           token: ${{ secrets.GITHUB_TOKEN }}
           datapath: docs/data.yml
