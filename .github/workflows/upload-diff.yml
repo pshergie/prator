@@ -20,12 +20,6 @@ jobs:
       - name: Generate Diff
         run: git diff ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} --name-only > pr_diff.txt
 
-      - name: Print out diff
-        shell: bash
-        run: |
-          value=`cat pr_diff.txt`
-          echo $value
-
       - name: Get PR comments
         id: get-comments
         run: |
@@ -36,12 +30,6 @@ jobs:
                           "https://api.github.com/repos/${{ github.repository }}/issues/$pr_number/comments")
 
           echo "$comments" | jq '[.[] | {user: .user.login, body: .body}]' > pr_comments.json
-
-      - name: Print out comments
-        shell: bash
-        run: |
-          value=`cat pr_comments.json`
-          echo $value
 
       - name: Create artifact folder
         run: mkdir -p auto_review_artifacts && mv pr_number.txt pr_comments.json pr_diff.txt auto_review_artifacts/

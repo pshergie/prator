@@ -9,7 +9,10 @@ inputs:
     description: "token for github"
     required: true
   datapath:
-    description: "path to data yaml file"
+    description: "path to data yaml file with comments"
+    required: true
+  artifacts-path:
+    description: "path to PR number, comments and diff"
     required: true
 runs:
   using: "node20"
