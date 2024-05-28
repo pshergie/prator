@@ -32,4 +32,3 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           datapath: docs/data.yml
-          artifacts-path: auto_review_artifacts
