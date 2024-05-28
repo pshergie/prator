@@ -8,6 +8,12 @@ inputs:
   token:
     description: "token for github"
     required: true
+  data-path:
+    description: "path to data yaml file with comments"
+    required: true
+  artifacts-path:
+    description: "path to PR number, comments and file diff"
+    default: "pr-diff/"
 runs:
   using: "node20"
   main: "dist/index.js"

@@ -1,0 +1,39 @@
+name: Auto Review Comment
+
+on:
+  workflow_call:
+    inputs:
+      data-path:
+        description: "path to data yaml file with comments"
+        required: true
+        type: string
+      artifact-path:
+        description: "path to PR number, comments and file diff"
+        required: false
+        default: "pr-diff/"
+        type: string
+
+jobs:
+  auto-review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Diff Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pr-diff
+          path: pr_diff/
+          repository: ${{ github.repository_owner }}/${{ github.event.repository.name }}
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Analyze changes
+        uses: ./
+        id: auto-review-action
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          data-path: ${{ inputs.data-path }}
+          artifact-path: ${{ inputs.artifact-path }}

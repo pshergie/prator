@@ -4,14 +4,14 @@ const yaml = require("js-yaml");
 const fs = require("fs");
 
 import postComment from "./utils/postComment.js";
-import getDatapath from "./utils/getDatapath.js";
+import getDataPath from "./utils/getDataPath.js";
 
 async function run() {
   try {
-    const artifactsPath = 'pr_diff';
-    const datapath = getDatapath(core);
+    const artifactPath = core.getInput("artifact-path");
+    const dataPath = getDataPath(core);
     const [prependData, checksData] = yaml.load(
-      fs.readFileSync(datapath, "utf8"),
+      fs.readFileSync(dataPath, "utf8"),
     );
     const { prependMsg } = prependData;
     const checks = checksData?.checks?.map((config) => ({
@@ -22,9 +22,9 @@ async function run() {
     const token = core.getInput("token");
     const octokit = github.getOctokit(token);
     const context = github.context;
-    const comments = JSON.parse(fs.readFileSync(`${artifactsPath}/pr_comments.json`, "utf8"));
-    const pullNumber = parseInt(fs.readFileSync(`${artifactsPath}/pr_number.txt`, "utf8"), 10);
-    const diffFilesPaths = fs.readFileSync(`${artifactsPath}/pr_files_diff.txt`, "utf8")?.split('\n').filter(Boolean);
+    const comments = JSON.parse(fs.readFileSync(artifactPath + 'pr_comments.json', "utf8"));
+    const pullNumber = parseInt(fs.readFileSync(artifactPath + 'pr_number.txt', "utf8"), 10);
+    const diffFilesPaths = fs.readFileSync(artifactPath + 'pr_files_diff.txt', "utf8")?.split('\n').filter(Boolean);
 
     checks.map(
       async ({ paths, message }) =>

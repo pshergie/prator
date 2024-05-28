@@ -1,11 +1,11 @@
-const getDatapath = (core) => {
-  const datapath = core.getInput("datapath");
+const getDataPath = (core) => {
+  const dataPath = core.getInput("data-path");
 
-  if (!datapath) {
-    throw new Error("The datapath variable is empty, please provide it.");
+  if (!dataPath) {
+    throw new Error("The dataPath variable is empty, please provide it.");
   }
 
-  return datapath;
+  return dataPath;
 };
 
-export default getDatapath;
+export default getDataPath;
