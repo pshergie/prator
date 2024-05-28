@@ -8,7 +8,7 @@ import getDatapath from "./utils/getDatapath.js";
 
 async function run() {
   try {
-    const artifactsPath = 'auto-review-artifacts';
+    const artifactsPath = 'pr_diff';
     const datapath = getDatapath(core);
     const [prependData, checksData] = yaml.load(
       fs.readFileSync(datapath, "utf8"),
@@ -24,7 +24,7 @@ async function run() {
     const context = github.context;
     const comments = JSON.parse(fs.readFileSync(`${artifactsPath}/pr_comments.json`, "utf8"));
     const pullNumber = parseInt(fs.readFileSync(`${artifactsPath}/pr_number.txt`, "utf8"), 10);
-    const diffFilesPaths = fs.readFileSync(`${artifactsPath}/pr_diff.txt`, "utf8")?.split('\n').filter(Boolean);
+    const diffFilesPaths = fs.readFileSync(`${artifactsPath}/pr_files_diff.txt`, "utf8")?.split('\n').filter(Boolean);
 
     checks.map(
       async ({ paths, message }) =>

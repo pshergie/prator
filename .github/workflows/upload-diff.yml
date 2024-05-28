@@ -32,10 +32,10 @@ jobs:
           echo "$comments" | jq '[.[] | {user: .user.login, body: .body}]' > pr_comments.json
 
       - name: Create artifact folder
-        run: mkdir -p auto_review_artifacts && mv pr_number.txt pr_comments.json pr_diff.txt auto_review_artifacts/
+        run: mkdir -p pr_diff && mv pr_number.txt pr_comments.json pr_files_diff.txt pr_diff/
 
       - name: Upload PR details as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: auto-review-artifacts
-          path: auto_review_artifacts/
+          name: pr-diff
+          path: pr_diff/

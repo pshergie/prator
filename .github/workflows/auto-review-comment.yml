@@ -1,11 +1,11 @@
 name: Auto Review Comment
 
-on:
-  workflow_run:
-    workflows:
-      - Diff Compile
-    types:
-      - completed
+# on:
+#   workflow_run:
+#     workflows:
+#       - Diff Compile
+#     types:
+#       - completed
 
 permissions:
   pull-requests: write
@@ -20,8 +20,8 @@ jobs:
       - name: Download Diff Artifact
         uses: actions/download-artifact@v4
         with:
-          name: auto-review-artifacts
-          path: auto_review_artifacts/
+          name: pr-diff
+          path: pr_diff/
           repository: ${{ github.repository_owner }}/${{ github.event.repository.name }}
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
