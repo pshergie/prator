@@ -11,9 +11,9 @@ inputs:
   data-path:
     description: "path to data yaml file with comments"
     required: true
-  artifacts-path:
+  artifact-path:
     description: "path to PR number, comments and file diff"
-    default: "pr-diff/"
+    default: pr-diff/
 runs:
   using: "node20"
   main: "dist/index.js"
