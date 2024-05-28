@@ -37405,18 +37405,18 @@ const postComment = async (
 
 /* harmony default export */ const utils_postComment = (postComment);
 
-;// CONCATENATED MODULE: ./src/utils/getDatapath.js
-const getDatapath = (core) => {
-  const datapath = core.getInput("datapath");
+;// CONCATENATED MODULE: ./src/utils/getDataPath.js
+const getDataPath = (core) => {
+  const dataPath = core.getInput("data-path");
 
-  if (!datapath) {
-    throw new Error("The datapath variable is empty, please provide it.");
+  if (!dataPath) {
+    throw new Error("The dataPath variable is empty, please provide it.");
   }
 
-  return datapath;
+  return dataPath;
 };
 
-/* harmony default export */ const utils_getDatapath = (getDatapath);
+/* harmony default export */ const utils_getDataPath = (getDataPath);
 
 ;// CONCATENATED MODULE: ./src/index.js
 const core = __nccwpck_require__(5127);
@@ -37429,10 +37429,10 @@ const fs = __nccwpck_require__(7147);
 
 async function run() {
   try {
-    const artifactsPath = 'pr_diff';
-    const datapath = utils_getDatapath(core);
+    const artifactPath = core.getInput("artifact-path");
+    const dataPath = utils_getDataPath(core);
     const [prependData, checksData] = yaml.load(
-      fs.readFileSync(datapath, "utf8"),
+      fs.readFileSync(dataPath, "utf8"),
     );
     const { prependMsg } = prependData;
     const checks = checksData?.checks?.map((config) => ({
@@ -37443,9 +37443,9 @@ async function run() {
     const token = core.getInput("token");
     const octokit = github.getOctokit(token);
     const context = github.context;
-    const comments = JSON.parse(fs.readFileSync(`${artifactsPath}/pr_comments.json`, "utf8"));
-    const pullNumber = parseInt(fs.readFileSync(`${artifactsPath}/pr_number.txt`, "utf8"), 10);
-    const diffFilesPaths = fs.readFileSync(`${artifactsPath}/pr_files_diff.txt`, "utf8")?.split('\n').filter(Boolean);
+    const comments = JSON.parse(fs.readFileSync(artifactPath + 'pr_comments.json', "utf8"));
+    const pullNumber = parseInt(fs.readFileSync(artifactPath + 'pr_number.txt', "utf8"), 10);
+    const diffFilesPaths = fs.readFileSync(artifactPath + 'pr_files_diff.txt', "utf8")?.split('\n').filter(Boolean);
 
     checks.map(
       async ({ paths, message }) =>
