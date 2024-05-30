@@ -33576,14 +33576,6 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 3451:
-/***/ ((module) => {
-
-module.exports = eval("require")("./utils/getDataPath.js");
-
-
-/***/ }),
-
 /***/ 9491:
 /***/ ((module) => {
 
@@ -37328,35 +37320,6 @@ exports.unescape = unescape;
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__nccwpck_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__nccwpck_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__nccwpck_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -37442,9 +37405,19 @@ const postComment = async (
 
 /* harmony default export */ const utils_postComment = (postComment);
 
-// EXTERNAL MODULE: ../../../../usr/local/lib/node_modules/@vercel/ncc/dist/ncc/@@notfound.js?./utils/getDataPath.js
-var getDataPath = __nccwpck_require__(3451);
-var getDataPath_default = /*#__PURE__*/__nccwpck_require__.n(getDataPath);
+;// CONCATENATED MODULE: ./src/utils/getDataPath.js
+const getDataPath = (core) => {
+  const dataPath = core.getInput("data-path");
+
+  if (!dataPath) {
+    throw new Error("The dataPath variable is empty, please provide it.");
+  }
+
+  return dataPath;
+};
+
+/* harmony default export */ const utils_getDataPath = (getDataPath);
+
 ;// CONCATENATED MODULE: ./src/utils/getCommentData.js
 const yaml = __nccwpck_require__(9818);
 
@@ -37452,7 +37425,7 @@ const yaml = __nccwpck_require__(9818);
 
 const getCommentData = () => {
   const refMsg = 'Use the Setup config section of the action description as a reference.';
-  const dataPath = getDataPath_default()(core);
+  const dataPath = utils_getDataPath(core);
   const commentData = yaml.load(
     fs.readFileSync(dataPath, "utf8"),
   );
