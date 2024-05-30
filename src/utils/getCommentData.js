@@ -12,21 +12,13 @@ const getCommentData = () => {
   );
 
   if (!commentData) {
-    console.log('Comment data: ', commentData);
+    console.log('Comment data: ', JSON.stringify(commentData, null, 4));
 
     throw new Error('The comments data is empty or incorrect. ' + refMsg);
   }
 
-  if (!commentData.prependData) {
-    console.log('Comment data: ', commentData);
-    console.log('Prepend data: ', commentData.prependData);
-
-    throw new Error('Prepend data is not correct. ' + refMsg);
-  }
-
   if (!commentData.checksData) {
-    console.log('Comment data: ', commentData);
-    console.log('Checks data: ', commentData.checksData);
+    console.log('Comment data: ', JSON.stringify(commentData, null, 4));
 
     throw new Error('Checks data is not correct. ' + refMsg);
   }
