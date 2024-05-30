@@ -37419,7 +37419,9 @@ const getDataPath = (core) => {
 /* harmony default export */ const utils_getDataPath = (getDataPath);
 
 ;// CONCATENATED MODULE: ./src/utils/getCommentData.js
+const fs = __nccwpck_require__(7147);
 const yaml = __nccwpck_require__(9818);
+const core = __nccwpck_require__(5127);
 
 
 
@@ -37438,14 +37440,14 @@ const getCommentData = () => {
 
   if (!commentData.prependData) {
     console.log('Comment data: ', commentData);
-    console.log('prepend data: ', prependData);
+    console.log('Prepend data: ', commentData.prependData);
 
     throw new Error('Prepend data is not correct. ' + refMsg);
   }
 
   if (!commentData.checksData) {
     console.log('Comment data: ', commentData);
-    console.log('checks data: ', checksData);
+    console.log('Checks data: ', commentData.checksData);
 
     throw new Error('Checks data is not correct. ' + refMsg);
   }
@@ -37456,9 +37458,9 @@ const getCommentData = () => {
 /* harmony default export */ const utils_getCommentData = (getCommentData);
 
 ;// CONCATENATED MODULE: ./src/index.js
+const src_fs = __nccwpck_require__(7147);
 const src_core = __nccwpck_require__(5127);
 const github = __nccwpck_require__(3134);
-const src_fs = __nccwpck_require__(7147);
 
 
 
