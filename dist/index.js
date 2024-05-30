@@ -29468,10 +29468,10 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 2087:
+/***/ 7865:
 /***/ ((module) => {
 
-module.exports = eval("require")("./getCommentData.js");
+module.exports = eval("require")(".utils/getCommentData.js");
 
 
 /***/ }),
@@ -33334,9 +33334,9 @@ const postComment = async (
 
 /* harmony default export */ const utils_postComment = (postComment);
 
-// EXTERNAL MODULE: ../../../../usr/local/lib/node_modules/@vercel/ncc/dist/ncc/@@notfound.js?./getCommentData.js
-var _notfoundgetCommentData = __nccwpck_require__(2087);
-var _notfoundgetCommentData_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundgetCommentData);
+// EXTERNAL MODULE: ../../../../usr/local/lib/node_modules/@vercel/ncc/dist/ncc/@@notfound.js?.utils/getCommentData.js
+var getCommentData = __nccwpck_require__(7865);
+var getCommentData_default = /*#__PURE__*/__nccwpck_require__.n(getCommentData);
 ;// CONCATENATED MODULE: ./src/index.js
 const core = __nccwpck_require__(5127);
 const github = __nccwpck_require__(3134);
@@ -33348,7 +33348,7 @@ const fs = __nccwpck_require__(7147);
 async function run() {
   try {
     const artifactPath = core.getInput("artifact-path");
-    const [prependData, checksData] = _notfoundgetCommentData_default()(dataPath);
+    const [prependData, checksData] = getCommentData_default()(dataPath);
     const { prependMsg } = prependData;
     const checks = checksData.checks.map((config) => ({
       ...config,

@@ -3,7 +3,7 @@ const github = require("@actions/github");
 const fs = require("fs");
 
 import postComment from "./utils/postComment.js";
-import getCommentData from "./getCommentData.js"
+import getCommentData from ".utils/getCommentData.js"
 
 async function run() {
   try {
