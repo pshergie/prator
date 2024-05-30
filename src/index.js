@@ -1,6 +1,6 @@
+const fs = require("fs");
 const core = require("@actions/core");
 const github = require("@actions/github");
-const fs = require("fs");
 
 import postComment from "./utils/postComment.js";
 import getCommentData from "./utils/getCommentData.js"

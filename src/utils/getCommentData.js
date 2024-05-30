@@ -1,4 +1,6 @@
+const fs = require("fs");
 const yaml = require("js-yaml");
+const core = require("@actions/core");
 
 import getDataPath from "./getDataPath.js";
 
@@ -17,14 +19,14 @@ const getCommentData = () => {
 
   if (!commentData.prependData) {
     console.log('Comment data: ', commentData);
-    console.log('prepend data: ', prependData);
+    console.log('Prepend data: ', commentData.prependData);
 
     throw new Error('Prepend data is not correct. ' + refMsg);
   }
 
   if (!commentData.checksData) {
     console.log('Comment data: ', commentData);
-    console.log('checks data: ', checksData);
+    console.log('Checks data: ', commentData.checksData);
 
     throw new Error('Checks data is not correct. ' + refMsg);
   }
