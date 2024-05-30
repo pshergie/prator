@@ -13,7 +13,7 @@ inputs:
     required: true
   artifact-path:
     description: "path to PR number, comments and file diff"
-    default: pr-diff/
+    default: pr_diff/
 runs:
   using: "node20"
   main: "dist/index.js"
