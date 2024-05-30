@@ -14,6 +14,13 @@ async function run() {
       fs.readFileSync(dataPath, "utf8"),
     );
     const { prependMsg } = prependData;
+
+    if (!checksData?.checks) {
+      console.log('checksData: ', checksData);
+
+      throw new Error('The comments data is empty or incorrect');
+    }
+
     const checks = checksData?.checks?.map((config) => ({
       ...config,
       paths: config.paths.split(",").map((p) => p.trim()),
@@ -26,7 +33,7 @@ async function run() {
     const pullNumber = parseInt(fs.readFileSync(artifactPath + 'pr_number.txt', "utf8"), 10);
     const diffFilesPaths = fs.readFileSync(artifactPath + 'pr_files_diff.txt', "utf8")?.split('\n').filter(Boolean);
 
-    checks.map(
+    checks?.map(
       async ({ paths, message }) =>
         await postComment(
           prependMsg,
