@@ -8,7 +8,7 @@ import getCommentData from "./utils/getCommentData.js"
 async function run() {
   try {
     const artifactPath = core.getInput("artifact-path");
-    const [prependData, checksData] = getCommentData(dataPath);
+    const [prependData, checksData] = getCommentData();
     const { prependMsg } = prependData;
     const checks = checksData.checks.map((config) => ({
       ...config,

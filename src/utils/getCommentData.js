@@ -2,7 +2,7 @@ const yaml = require("js-yaml");
 
 import getDataPath from "./utils/getDataPath.js";
 
-const getCommentData = (dataPath) => {
+const getCommentData = () => {
   const refMsg = 'Use the Setup config section of the action description as a reference.';
   const dataPath = getDataPath(core);
   const commentData = yaml.load(
