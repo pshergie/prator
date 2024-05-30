@@ -10,7 +10,7 @@ on:
       artifact-path:
         description: "path to PR number, comments and file diff"
         required: false
-        default: "pr-diff/"
+        default: "pr_diff/"
         type: string
 
 jobs:
