@@ -7,6 +7,7 @@ const shouldMessageBePosted = (
   diffFilesPaths,
   comments,
 ) => {
+  console.log('comments', comments);
   let areTargetPathsChanged = checkDiff(paths, diffFilesPaths);
 
   if (areTargetPathsChanged) {
@@ -19,7 +20,7 @@ const shouldMessageBePosted = (
     console.log('isCommentExisting', isCommentExisting);
 
     return isCommentExisting ? false : true;
-  }
+  };
 
   return false;
 };
