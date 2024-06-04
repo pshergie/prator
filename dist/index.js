@@ -37449,10 +37449,36 @@ const getAutoCommentData = () => {
 
 /* harmony default export */ const utils_getAutoCommentData = (getAutoCommentData);
 
+;// CONCATENATED MODULE: ./src/utils/fetchComments.js
+const fetchComments = async (context, pullNumber, octokit) => {
+  let data = [];
+  let pagesRemaining = true;
+  let page = 1;
+
+  while (pagesRemaining) {
+    const response = await octokit.rest.issues.listComments({
+      ...context.repo,
+      issue_number: pullNumber,
+      per_page: 100,
+      page,
+    });
+
+    data = [...data, ...response.data];
+    const linkHeader = response.headers.link;
+    pagesRemaining = linkHeader && linkHeader.includes(`rel=\"next\"`);
+    page++;
+  }
+
+  return data;
+};
+
+/* harmony default export */ const utils_fetchComments = (fetchComments);
+
 ;// CONCATENATED MODULE: ./src/index.js
 const src_fs = __nccwpck_require__(7147);
 const src_core = __nccwpck_require__(5127);
 const github = __nccwpck_require__(3134);
+
 
 
 
@@ -37471,7 +37497,7 @@ async function run() {
     const octokit = github.getOctokit(token);
     const context = github.context;
     const pullNumber = parseInt(src_fs.readFileSync(artifactPath + 'pr_number.txt', "utf8"), 10);
-    const comments = fetchComments(context, pullNumber, octokit);
+    const comments = utils_fetchComments(context, pullNumber, octokit);
     const diffFilesPaths = src_fs.readFileSync(artifactPath + 'pr_files_diff.txt', "utf8").split('\n').filter(Boolean);
 
     checks.map(

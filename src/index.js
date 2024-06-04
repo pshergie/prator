@@ -3,7 +3,8 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 
 import postComment from "./utils/postComment.js";
-import getAutoCommentData from "./utils/getAutoCommentData.js"
+import getAutoCommentData from "./utils/getAutoCommentData.js";
+import fetchComments from "./utils/fetchComments.js";
 
 async function run() {
   try {
