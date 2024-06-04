@@ -8,7 +8,6 @@ const postComment = async (
   context,
   octokit,
 ) => {
-  console.log('messagesToPost', messagesToPost);
   const message = messagesToPost.join('\n\n');
   const body = prependMsg ? `${prependMsg}\n\n` + message : message;
 
