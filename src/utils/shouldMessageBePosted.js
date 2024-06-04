@@ -9,7 +9,7 @@ const shouldMessageBePosted = (
 ) => {
   let areTargetPathsChanged = checkDiff(paths, diffFilesPaths);
 
-  if (areTargetPathsChanged) {
+  if (areTargetPathsChanged && comments && Array.isArray(comments) && comments.length > 0) {
     const isCommentExisting = comments.some(
       (comment) =>
         comment.user.login === "github-actions[bot]" &&

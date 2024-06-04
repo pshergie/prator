@@ -37470,7 +37470,7 @@ const shouldMessageBePosted = (
 ) => {
   let areTargetPathsChanged = utils_checkDiff(paths, diffFilesPaths);
 
-  if (areTargetPathsChanged) {
+  if (areTargetPathsChanged && comments && Array.isArray(comments) && comments.length > 0) {
     const isCommentExisting = comments.some(
       (comment) =>
         comment.user.login === "github-actions[bot]" &&
@@ -37513,15 +37513,11 @@ async function run() {
     const diffFilesPaths = src_fs.readFileSync(artifactPath + 'pr_files_diff.txt', "utf8").split('\n').filter(Boolean);
     let messagesToPost = [];
 
-    if (comments && Array.isArray(comments) && comments.length > 0) {
-      checks.map(({ paths, message }) => {
-        if (utils_shouldMessageBePosted(paths, message, diffFilesPaths, comments)) {
-          messagesToPost.push(message);
-        }
-      });
-    } else if (comments && Array.isArray(comments) && comments.length === 0) {
-      checks.map(({ message }) => messagesToPost.push(message));
-    }
+    checks.map(({ paths, message }) => {
+      if (utils_shouldMessageBePosted(paths, message, diffFilesPaths, comments)) {
+        messagesToPost.push(message);
+      }
+    });
 
     if (messagesToPost.length > 0) {
       await utils_postComment(prependMsg, messagesToPost, pullNumber, context, octokit);
