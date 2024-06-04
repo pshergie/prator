@@ -37472,14 +37472,13 @@ const shouldMessageBePosted = (
   diffFilesPaths,
   comments,
 ) => {
-  console.log('comments', comments);
   let areTargetPathsChanged = utils_checkDiff(paths, diffFilesPaths);
 
   if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
       (comment) =>
-        comment.user === "github-actions[bot]" &&
-        utils_compareMarkdown(comment.user.body, message),
+        comment.user.login === "github-actions[bot]" &&
+        utils_compareMarkdown(comment.body, message),
     );
 
     console.log('isCommentExisting', isCommentExisting);
