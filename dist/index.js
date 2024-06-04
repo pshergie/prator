@@ -37466,7 +37466,7 @@ const compareMarkdown = (comment, message) => {
 
 
 
-const shouldMessageBePosted_postComment = (
+const shouldMessageBePosted = (
   paths,
   message,
   diffFilesPaths,
@@ -37487,7 +37487,7 @@ const shouldMessageBePosted_postComment = (
   return false;
 };
 
-/* harmony default export */ const shouldMessageBePosted = (shouldMessageBePosted_postComment);
+/* harmony default export */ const utils_shouldMessageBePosted = (shouldMessageBePosted);
 
 ;// CONCATENATED MODULE: ./src/index.js
 const src_fs = __nccwpck_require__(7147);
@@ -37518,7 +37518,7 @@ async function run() {
     let messagesToPost = [];
 
     checks.map(({ paths, message }) => {
-      if (shouldMessageBePosted(paths, message, diffFilesPaths, comments)) {
+      if (utils_shouldMessageBePosted(paths, message, diffFilesPaths, comments)) {
         messagesToPost.push(message);
       }
     });

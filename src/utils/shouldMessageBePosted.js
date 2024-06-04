@@ -1,7 +1,7 @@
 import checkDiff from "./checkDiff.js";
 import compareMarkdown from "./compareMarkdown.js";
 
-const postComment = (
+const shouldMessageBePosted = (
   paths,
   message,
   diffFilesPaths,
@@ -22,4 +22,4 @@ const postComment = (
   return false;
 };
 
-export default postComment;
+export default shouldMessageBePosted;
