@@ -37343,64 +37343,22 @@ var __webpack_exports__ = {};
 // ESM COMPAT FLAG
 __nccwpck_require__.r(__webpack_exports__);
 
-;// CONCATENATED MODULE: ./src/utils/checkDiff.js
-const { minimatch } = __nccwpck_require__(5072);
-
-const checkDiff = (paths, diffFilesPaths) => {
-  if (Array.isArray(paths)) {
-    return paths.some((path) =>
-      diffFilesPaths.some(
-        (diffPath) => diffPath.includes(path) || minimatch(diffPath, path),
-      ),
-    );
-  } else {
-    throw new Error(
-      `Wrong type for 'paths' variable (${typeof paths}). Make sure you followed the formatting rules.`,
-    );
-  }
-};
-
-/* harmony default export */ const utils_checkDiff = (checkDiff);
-
-;// CONCATENATED MODULE: ./src/utils/compareMarkdown.js
-const compareMarkdown = (comment, message) => {
-  return comment.replaceAll("- [x]", "- [ ]") === message;
-};
-
-/* harmony default export */ const utils_compareMarkdown = (compareMarkdown);
-
 ;// CONCATENATED MODULE: ./src/utils/postComment.js
-
-
-
 const postComment = async (
   prependMsg,
-  paths,
-  message,
+  messagesToPost,
   pullNumber,
-  diffFilesPaths,
-  comments,
   context,
   octokit,
 ) => {
-  let areTargetPathsChanged = utils_checkDiff(paths, diffFilesPaths);
+  const message = messagesToPost.join('\n\n');
   const body = prependMsg ? `${prependMsg}\n\n` + message : message;
 
-  if (areTargetPathsChanged) {
-    const isCommentExisting = comments.some(
-      (comment) =>
-        comment.user === "github-actions[bot]" &&
-        utils_compareMarkdown(comment.body, body),
-    );
-
-    if (!isCommentExisting) {
-      await octokit.rest.issues.createComment({
-        ...context.repo,
-        issue_number: pullNumber,
-        body,
-      });
-    }
-  }
+  await octokit.rest.issues.createComment({
+    ...context.repo,
+    issue_number: pullNumber,
+    body,
+  });
 };
 
 /* harmony default export */ const utils_postComment = (postComment);
@@ -37474,10 +37432,64 @@ const fetchComments = async (context, pullNumber, octokit) => {
 
 /* harmony default export */ const utils_fetchComments = (fetchComments);
 
+;// CONCATENATED MODULE: ./src/utils/checkDiff.js
+const { minimatch } = __nccwpck_require__(5072);
+
+const checkDiff = (paths, diffFilesPaths) => {
+  if (Array.isArray(paths)) {
+    return paths.some((path) =>
+      diffFilesPaths.some(
+        (diffPath) => diffPath.includes(path) || minimatch(diffPath, path),
+      ),
+    );
+  } else {
+    throw new Error(
+      `Wrong type for 'paths' variable (${typeof paths}). Make sure you followed the formatting rules.`,
+    );
+  }
+};
+
+/* harmony default export */ const utils_checkDiff = (checkDiff);
+
+;// CONCATENATED MODULE: ./src/utils/compareMarkdown.js
+const compareMarkdown = (comment, message) => {
+  return comment.replaceAll("- [x]", "- [ ]").includes(message);
+};
+
+/* harmony default export */ const utils_compareMarkdown = (compareMarkdown);
+
+;// CONCATENATED MODULE: ./src/utils/shouldMessageBePosted.js
+
+
+
+const shouldMessageBePosted = (
+  paths,
+  message,
+  diffFilesPaths,
+  comments,
+) => {
+  let areTargetPathsChanged = utils_checkDiff(paths, diffFilesPaths);
+
+  if (areTargetPathsChanged) {
+    const isCommentExisting = comments.some(
+      (comment) =>
+        comment.user.login === "github-actions[bot]" &&
+        utils_compareMarkdown(comment.body, message),
+    );
+
+    return isCommentExisting ? false : true;
+  };
+
+  return false;
+};
+
+/* harmony default export */ const utils_shouldMessageBePosted = (shouldMessageBePosted);
+
 ;// CONCATENATED MODULE: ./src/index.js
 const src_fs = __nccwpck_require__(7147);
 const src_core = __nccwpck_require__(5127);
 const github = __nccwpck_require__(3134);
+
 
 
 
@@ -37499,20 +37511,17 @@ async function run() {
     const pullNumber = parseInt(src_fs.readFileSync(artifactPath + 'pr_number.txt', "utf8"), 10);
     const comments = await utils_fetchComments(context, pullNumber, octokit);
     const diffFilesPaths = src_fs.readFileSync(artifactPath + 'pr_files_diff.txt', "utf8").split('\n').filter(Boolean);
+    let messagesToPost = [];
 
-    checks.map(
-      async ({ paths, message }) =>
-        await utils_postComment(
-          prependMsg,
-          paths,
-          message,
-          pullNumber,
-          diffFilesPaths,
-          comments,
-          context,
-          octokit,
-        ),
-    );
+    checks.map(({ paths, message }) => {
+      if (utils_shouldMessageBePosted(paths, message, diffFilesPaths, comments)) {
+        messagesToPost.push(message);
+      }
+    });
+
+    if (messagesToPost.length > 0) {
+      await utils_postComment(prependMsg, messagesToPost, pullNumber, context, octokit);
+    }
   } catch (error) {
     src_core.setFailed(error.message);
   }
