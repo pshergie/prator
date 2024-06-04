@@ -37343,36 +37343,7 @@ var __webpack_exports__ = {};
 // ESM COMPAT FLAG
 __nccwpck_require__.r(__webpack_exports__);
 
-;// CONCATENATED MODULE: ./src/utils/checkDiff.js
-const { minimatch } = __nccwpck_require__(5072);
-
-const checkDiff = (paths, diffFilesPaths) => {
-  if (Array.isArray(paths)) {
-    return paths.some((path) =>
-      diffFilesPaths.some(
-        (diffPath) => diffPath.includes(path) || minimatch(diffPath, path),
-      ),
-    );
-  } else {
-    throw new Error(
-      `Wrong type for 'paths' variable (${typeof paths}). Make sure you followed the formatting rules.`,
-    );
-  }
-};
-
-/* harmony default export */ const utils_checkDiff = (checkDiff);
-
-;// CONCATENATED MODULE: ./src/utils/compareMarkdown.js
-const compareMarkdown = (comment, message) => {
-  return comment.replaceAll("- [x]", "- [ ]").includes(message);
-};
-
-/* harmony default export */ const utils_compareMarkdown = (compareMarkdown);
-
 ;// CONCATENATED MODULE: ./src/utils/postComment.js
-
-
-
 const postComment = async (
   prependMsg,
   messagesToPost,
@@ -37383,21 +37354,11 @@ const postComment = async (
   const message = messagesToPost.join('\n\n');
   const body = prependMsg ? `${prependMsg}\n\n` + message : message;
 
-  if (areTargetPathsChanged) {
-    const isCommentExisting = comments.some(
-      (comment) =>
-        comment.user === "github-actions[bot]" &&
-        utils_compareMarkdown(comment.body, body),
-    );
-
-    if (!isCommentExisting) {
-      await octokit.rest.issues.createComment({
-        ...context.repo,
-        issue_number: pullNumber,
-        body,
-      });
-    }
-  }
+  await octokit.rest.issues.createComment({
+    ...context.repo,
+    issue_number: pullNumber,
+    body,
+  });
 };
 
 /* harmony default export */ const utils_postComment = (postComment);
@@ -37470,6 +37431,32 @@ const fetchComments = async (context, pullNumber, octokit) => {
 };
 
 /* harmony default export */ const utils_fetchComments = (fetchComments);
+
+;// CONCATENATED MODULE: ./src/utils/checkDiff.js
+const { minimatch } = __nccwpck_require__(5072);
+
+const checkDiff = (paths, diffFilesPaths) => {
+  if (Array.isArray(paths)) {
+    return paths.some((path) =>
+      diffFilesPaths.some(
+        (diffPath) => diffPath.includes(path) || minimatch(diffPath, path),
+      ),
+    );
+  } else {
+    throw new Error(
+      `Wrong type for 'paths' variable (${typeof paths}). Make sure you followed the formatting rules.`,
+    );
+  }
+};
+
+/* harmony default export */ const utils_checkDiff = (checkDiff);
+
+;// CONCATENATED MODULE: ./src/utils/compareMarkdown.js
+const compareMarkdown = (comment, message) => {
+  return comment.replaceAll("- [x]", "- [ ]").includes(message);
+};
+
+/* harmony default export */ const utils_compareMarkdown = (compareMarkdown);
 
 ;// CONCATENATED MODULE: ./src/utils/shouldMessageBePosted.js
 
