@@ -14,7 +14,7 @@ const shouldMessageBePosted = (
     const isCommentExisting = comments.some(
       (comment) =>
         comment.user === "github-actions[bot]" &&
-        compareMarkdown(comment.body, message),
+        compareMarkdown(comment.user.body, message),
     );
 
     console.log('isCommentExisting', isCommentExisting);
