@@ -37499,7 +37499,7 @@ async function run() {
     const octokit = github.getOctokit(token);
     const context = github.context;
     const pullNumber = parseInt(src_fs.readFileSync(artifactPath + 'pr_number.txt', "utf8"), 10);
-    const comments = utils_fetchComments(context, pullNumber, octokit);
+    const comments = await utils_fetchComments(context, pullNumber, octokit);
     const diffFilesPaths = src_fs.readFileSync(artifactPath + 'pr_files_diff.txt', "utf8").split('\n').filter(Boolean);
 
     checks.map(
