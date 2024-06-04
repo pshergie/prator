@@ -37519,6 +37519,8 @@ async function run() {
           messagesToPost.push(message);
         }
       });
+    } else if (comments && Array.isArray(comments) && comments.length === 0) {
+      checks.map(({ message }) => messagesToPost.push(message));
     }
 
     if (messagesToPost.length > 0) {
