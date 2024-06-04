@@ -37386,6 +37386,8 @@ const postComment = async (
   let areTargetPathsChanged = utils_checkDiff(paths, diffFilesPaths);
   const body = prependMsg ? `${prependMsg}\n\n` + message : message;
 
+  console.log('comments', comments);
+
   if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
       (comment) =>
