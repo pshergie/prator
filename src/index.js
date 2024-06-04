@@ -25,13 +25,17 @@ async function run() {
     const diffFilesPaths = fs.readFileSync(artifactPath + 'pr_files_diff.txt', "utf8").split('\n').filter(Boolean);
     let messagesToPost = [];
 
-    checks.map(({ paths, message }) => {
-      if (shouldMessageBePosted(paths, message, diffFilesPaths, comments)) {
-        messagesToPost.push(message);
-      }
-    });
+    if (comments && Array.isArray(comments) && comments.length > 0) {
+      checks.map(({ paths, message }) => {
+        if (shouldMessageBePosted(paths, message, diffFilesPaths, comments)) {
+          messagesToPost.push(message);
+        }
+      });
+    }
 
-    await postComment(prependMsg, messagesToPost, pullNumber, context, octokit);
+    if (messagesToPost.length > 0) {
+      await postComment(prependMsg, messagesToPost, pullNumber, context, octokit);
+    }
   } catch (error) {
     core.setFailed(error.message);
   }

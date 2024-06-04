@@ -16,8 +16,6 @@ const shouldMessageBePosted = (
         compareMarkdown(comment.body, message),
     );
 
-    console.log('isCommentExisting', isCommentExisting);
-
     return isCommentExisting ? false : true;
   };
 

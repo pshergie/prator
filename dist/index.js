@@ -37453,10 +37453,6 @@ const checkDiff = (paths, diffFilesPaths) => {
 
 ;// CONCATENATED MODULE: ./src/utils/compareMarkdown.js
 const compareMarkdown = (comment, message) => {
-  console.log('comment', comment);
-  console.log('message', message);
-  console.log('=================================');
-
   return comment.replaceAll("- [x]", "- [ ]").includes(message);
 };
 
@@ -37480,8 +37476,6 @@ const shouldMessageBePosted = (
         comment.user.login === "github-actions[bot]" &&
         utils_compareMarkdown(comment.body, message),
     );
-
-    console.log('isCommentExisting', isCommentExisting);
 
     return isCommentExisting ? false : true;
   };
@@ -37519,13 +37513,17 @@ async function run() {
     const diffFilesPaths = src_fs.readFileSync(artifactPath + 'pr_files_diff.txt', "utf8").split('\n').filter(Boolean);
     let messagesToPost = [];
 
-    checks.map(({ paths, message }) => {
-      if (utils_shouldMessageBePosted(paths, message, diffFilesPaths, comments)) {
-        messagesToPost.push(message);
-      }
-    });
+    if (comments && Array.isArray(comments) && comments.length > 0) {
+      checks.map(({ paths, message }) => {
+        if (utils_shouldMessageBePosted(paths, message, diffFilesPaths, comments)) {
+          messagesToPost.push(message);
+        }
+      });
+    }
 
-    await utils_postComment(prependMsg, messagesToPost, pullNumber, context, octokit);
+    if (messagesToPost.length > 0) {
+      await utils_postComment(prependMsg, messagesToPost, pullNumber, context, octokit);
+    }
   } catch (error) {
     src_core.setFailed(error.message);
   }
