@@ -3,12 +3,12 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 
 import postComment from "./utils/postComment.js";
-import getCommentData from "./utils/getCommentData.js"
+import getAutoCommentData from "./utils/getAutoCommentData.js"
 
 async function run() {
   try {
     const artifactPath = core.getInput("artifact-path");
-    const [prependData, checksData] = getCommentData();
+    const [prependData, checksData] = getAutoCommentData();
     const { prependMsg } = prependData;
     const checks = checksData.checks.map((config) => ({
       ...config,
@@ -18,8 +18,8 @@ async function run() {
     const token = core.getInput("token");
     const octokit = github.getOctokit(token);
     const context = github.context;
-    const comments = JSON.parse(fs.readFileSync(artifactPath + 'pr_comments.json', "utf8"));
     const pullNumber = parseInt(fs.readFileSync(artifactPath + 'pr_number.txt', "utf8"), 10);
+    const comments = fetchComments(context, pullNumber, octokit);
     const diffFilesPaths = fs.readFileSync(artifactPath + 'pr_files_diff.txt', "utf8").split('\n').filter(Boolean);
 
     checks.map(

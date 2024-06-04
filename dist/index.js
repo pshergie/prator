@@ -37418,14 +37418,14 @@ const getDataPath = (core) => {
 
 /* harmony default export */ const utils_getDataPath = (getDataPath);
 
-;// CONCATENATED MODULE: ./src/utils/getCommentData.js
+;// CONCATENATED MODULE: ./src/utils/getAutoCommentData.js
 const fs = __nccwpck_require__(7147);
 const yaml = __nccwpck_require__(9818);
 const core = __nccwpck_require__(5127);
 
 
 
-const getCommentData = () => {
+const getAutoCommentData = () => {
   const refMsg = 'Use the Setup config section of the action description as a reference.';
   const dataPath = utils_getDataPath(core);
   const commentData = yaml.load(
@@ -37435,7 +37435,7 @@ const getCommentData = () => {
   if (!commentData) {
     console.log('Comment data: ', JSON.stringify(commentData, null, 4));
 
-    throw new Error('The comments data is empty or incorrect. ' + refMsg);
+    throw new Error('The auto comments data is empty or incorrect. ' + refMsg);
   }
 
   if (!commentData[1]) {
@@ -37447,7 +37447,7 @@ const getCommentData = () => {
   return commentData;
 };
 
-/* harmony default export */ const utils_getCommentData = (getCommentData);
+/* harmony default export */ const utils_getAutoCommentData = (getAutoCommentData);
 
 ;// CONCATENATED MODULE: ./src/index.js
 const src_fs = __nccwpck_require__(7147);
@@ -37460,7 +37460,7 @@ const github = __nccwpck_require__(3134);
 async function run() {
   try {
     const artifactPath = src_core.getInput("artifact-path");
-    const [prependData, checksData] = utils_getCommentData();
+    const [prependData, checksData] = utils_getAutoCommentData();
     const { prependMsg } = prependData;
     const checks = checksData.checks.map((config) => ({
       ...config,
@@ -37470,8 +37470,8 @@ async function run() {
     const token = src_core.getInput("token");
     const octokit = github.getOctokit(token);
     const context = github.context;
-    const comments = JSON.parse(src_fs.readFileSync(artifactPath + 'pr_comments.json', "utf8"));
     const pullNumber = parseInt(src_fs.readFileSync(artifactPath + 'pr_number.txt', "utf8"), 10);
+    const comments = fetchComments(context, pullNumber, octokit);
     const diffFilesPaths = src_fs.readFileSync(artifactPath + 'pr_files_diff.txt', "utf8").split('\n').filter(Boolean);
 
     checks.map(

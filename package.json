@@ -1,6 +1,6 @@
 {
   "name": "gh-actions-test",
-  "version": "1.11.5",
+  "version": "1.12",
   "description": "",
   "author": "pshergie",
   "license": "ISC",
@@ -11,8 +11,8 @@
     "minimatch": "^9.0.4"
   },
   "devDependencies": {
-    "@eslint/js": "^9.3.0",
-    "eslint": "^9.3.0",
+    "@eslint/js": "^9.4.0",
+    "eslint": "^9.4.0",
     "globals": "^15.3.0"
   }
 }
