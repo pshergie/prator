@@ -3,15 +3,12 @@ import compareMarkdown from "./compareMarkdown.js";
 
 const postComment = async (
   prependMsg,
-  paths,
-  message,
+  messagesToPost,
   pullNumber,
-  diffFilesPaths,
-  comments,
   context,
   octokit,
 ) => {
-  let areTargetPathsChanged = checkDiff(paths, diffFilesPaths);
+  const message = messagesToPost.split().join('\n\n');
   const body = prependMsg ? `${prependMsg}\n\n` + message : message;
 
   if (areTargetPathsChanged) {

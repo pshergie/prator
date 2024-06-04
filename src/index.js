@@ -5,6 +5,7 @@ const github = require("@actions/github");
 import postComment from "./utils/postComment.js";
 import getAutoCommentData from "./utils/getAutoCommentData.js";
 import fetchComments from "./utils/fetchComments.js";
+import shouldMessageBePosted from "./utils/shouldMessageBePosted.js"
 
 async function run() {
   try {
@@ -22,20 +23,15 @@ async function run() {
     const pullNumber = parseInt(fs.readFileSync(artifactPath + 'pr_number.txt', "utf8"), 10);
     const comments = await fetchComments(context, pullNumber, octokit);
     const diffFilesPaths = fs.readFileSync(artifactPath + 'pr_files_diff.txt', "utf8").split('\n').filter(Boolean);
+    let messagesToPost = [];
 
-    checks.map(
-      async ({ paths, message }) =>
-        await postComment(
-          prependMsg,
-          paths,
-          message,
-          pullNumber,
-          diffFilesPaths,
-          comments,
-          context,
-          octokit,
-        ),
-    );
+    checks.map(({ paths, message }) => {
+      if (shouldMessageBePosted(paths, message, diffFilesPaths, comments)) {
+        messagesToPost.push(message);
+      }
+    });
+
+    await postComment(prependMsg, messagesToPost, pullNumber, context, octokit);
   } catch (error) {
     core.setFailed(error.message);
   }

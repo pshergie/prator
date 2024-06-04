@@ -10,6 +10,38 @@ Use this action in order to auto post comments in pull requests based on the cha
 
 Since posting comments on GitHub requires write permission you need two create 2 yaml configurations. One to collect PR changes and upload as artifacts and one to download them and apply the script (executes from the main branch).
 
+In the first config you need to prepare some data to be uploaded as an artifact:
+
+```yml
+name: Auto-review Diff Prepare
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  prepare:
+    name: Prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Save PR number
+        run: echo "${{ github.event.pull_request.number }}" > pr_number.txt
+      - name: Generate Diff
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          git diff origin/${{ github.event.pull_request.base.ref }}..${{ github.sha }} > pr_files_diff.txt
+      - name: Create artifact folder
+        run: mkdir -p pr_diff && mv pr_number.txt pr_files_diff.txt pr_diff/
+      - name: Upload PR details as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-diff
+          path: pr_diff/
+```
+
 In the second config file you need to specify 2 params:
 
 - `token`: your GitHub token
