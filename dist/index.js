@@ -37470,7 +37470,7 @@ const shouldMessageBePosted = (
 ) => {
   let areTargetPathsChanged = utils_checkDiff(paths, diffFilesPaths);
 
-  if (areTargetPathsChanged && comments && Array.isArray(comments) && comments.length > 0) {
+  if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
       (comment) =>
         comment.user.login === "github-actions[bot]" &&
