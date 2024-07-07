@@ -1,5 +1,5 @@
 name: "Pull Request Auto Reviewer"
-description: "auto post comments based on changes"
+description: "Add review comments to your pull requests based on changes"
 author: pshergie
 branding:
   icon: "message-square"
