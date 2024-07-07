@@ -3,7 +3,7 @@ name: Auto Review Comment
 on:
   workflow_call:
     inputs:
-      data-path:
+      rules-path:
         description: "path to data yaml file with comments"
         required: true
         type: string
@@ -35,5 +35,5 @@ jobs:
         id: auto-review-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          data-path: ${{ inputs.data-path }}
+          rules-path: ${{ inputs.rules-path }}
           artifact-path: ${{ inputs.artifact-path }}

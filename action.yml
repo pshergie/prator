@@ -8,7 +8,7 @@ inputs:
   token:
     description: "token for github"
     required: true
-  data-path:
+  rules-path:
     description: "path to data yaml file with comments"
     required: true
   artifact-path:

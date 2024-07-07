@@ -2,13 +2,13 @@ const fs = require("fs");
 const yaml = require("js-yaml");
 const core = require("@actions/core");
 
-import getDataPath from "./getDataPath.js";
+import getRulesPath from "./getRulesPath.js";
 
 const getAutoCommentData = () => {
   const refMsg = 'Use the Setup config section of the action description as a reference.';
-  const dataPath = getDataPath(core);
+  const rulesPath = getRulesPath(core);
   const commentData = yaml.load(
-    fs.readFileSync(dataPath, "utf8"),
+    fs.readFileSync(rulesPath, "utf8"),
   );
 
   if (!commentData) {
