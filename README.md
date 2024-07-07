@@ -2,7 +2,7 @@
 
 ![action example](./img/example.jpg)
 
-__This script is for public repositories. For private ones use a [simplified version](https://github.com/pshergie/prator-private) of it.__
+_This script is for public repositories. For private ones use a [simplified version](https://github.com/pshergie/prator-private) of it._
 
 Add review comments to your pull requests based on changes in 3 steps:
 
@@ -106,4 +106,4 @@ In this step create a workflow that downloads the artifact and applies the scrip
 - `token`: your GitHub token
 - `rules-path`: a path to the file with rules that you have specified earlier (for instance `.github/auto-review-rules.yml`)
 
-__Note:__ The workflow executes from the main/master branch and is not visible in the PR checks.
+_Note:_ The workflow executes from the main/master branch and is not visible in the PR checks.
