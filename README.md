@@ -9,7 +9,7 @@ Add review comments to your pull requests based on changes in 3 steps:
 1. Add rules for the action script [(more info)](#add-rules-for-the-action-script):
 
 ```yml
-- prependMsg: "🗯️ [pull-request-auto-reviewer](https://github.com/pshergie/prator):"
+- prependMsg: "🗯️ [pull-request-auto-reviewer](https://github.com/marketplace/actions/pull-request-auto-reviewer):"
 - checks:
     - paths: "**/*.js"
       message: |
