@@ -1,4 +1,4 @@
-name: "pull-request-auto-reviewer"
+name: "Pull Request Auto Reviewer"
 description: "auto post comments based on changes"
 author: pshergie
 branding:
