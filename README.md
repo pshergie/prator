@@ -2,7 +2,7 @@
 
 ![action example](./img/example.jpg)
 
-_This script is for public repositories. For private ones use a [simplified version](https://github.com/pshergie/prator-private) of it._
+_This script is for public repositories. For private ones use a [simplified version](https://github.com/marketplace/actions/pull-request-auto-reviewer-private) of it._
 
 Add review comments to your pull requests based on changes in 3 steps:
 
