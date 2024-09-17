@@ -49,7 +49,10 @@ jobs:
       - name: Generate Diff
         run: |
           git fetch origin ${{ github.event.pull_request.base.ref }}
-          git diff --name-only origin/${{ github.event.pull_request.base.ref }}..${{ github.sha }} > pr_files_diff.txt
+          git diff --name-only origin/${{ github.event.pull_request.base.ref }}..${{ github.sha }} > pr_files_diff_all.txt
+          git diff --name-status origin/${{ github.event.pull_request.base.ref }}..${{ github.sha }} | grep '^M' | cut -f2 > pr_files_diff_mod.txt
+          git diff --name-status origin/${{ github.event.pull_request.base.ref }}..${{ github.sha }} | grep '^A' | cut -f2 > pr_files_diff_add.txt
+          git diff --name-status origin/${{ github.event.pull_request.base.ref }}..${{ github.sha }} | grep '^D' | cut -f2 > pr_files_diff_del.txt
       - name: Create artifact folder
         run: mkdir -p pr_diff && mv pr_number.txt pr_files_diff.txt pr_diff/
       - name: Upload PR details as artifact
