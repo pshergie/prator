@@ -37396,7 +37396,7 @@ const getAutoCommentData = () => {
     throw new Error('The auto comments data is empty or incorrect. ' + refMsg);
   }
 
-  if (!commentData[1]) {
+  if (!commentData.checks) {
     console.log('Comment data: ', JSON.stringify(commentData, null, 4));
 
     throw new Error('Checks data is not correct. ' + refMsg);
