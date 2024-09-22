@@ -37377,7 +37377,7 @@ const getRulesPath = (core) => {
 /* harmony default export */ const utils_getRulesPath = (getRulesPath);
 
 ;// CONCATENATED MODULE: ./src/utils/getAutoCommentData.js
-const getAutoCommentData_fs = __nccwpck_require__(7147);
+const fs = __nccwpck_require__(7147);
 const yaml = __nccwpck_require__(9818);
 const core = __nccwpck_require__(5127);
 
@@ -37387,7 +37387,7 @@ const getAutoCommentData = () => {
   const refMsg = 'Use the Setup config section of the action description as a reference.';
   const rulesPath = utils_getRulesPath(core);
   const commentData = yaml.load(
-    getAutoCommentData_fs.readFileSync(rulesPath, "utf8"),
+    fs.readFileSync(rulesPath, "utf8"),
   );
 
   if (!commentData) {
@@ -37435,7 +37435,9 @@ const fetchComments = async (context, pullNumber, octokit) => {
 /* harmony default export */ const utils_fetchComments = (fetchComments);
 
 ;// CONCATENATED MODULE: ./src/utils/fetchDiffFromFile.js
-const fetchDiffFromFile = (type) => fs.readFileSync(`${artifactPath}pr_files_diff_${type}.txt`, "utf8").split('\n').filter(Boolean);
+const fetchDiffFromFile_fs = __nccwpck_require__(7147);
+
+const fetchDiffFromFile = (type) => fetchDiffFromFile_fs.readFileSync(`${artifactPath}pr_files_diff_${type}.txt`, "utf8").split('\n').filter(Boolean);
 
 /* harmony default export */ const utils_fetchDiffFromFile = (fetchDiffFromFile);
 
