@@ -12,9 +12,7 @@ import prepareMessages from "./utils/prepareMessages.js";
 async function run() {
   try {
     const artifactPath = core.getInput("artifact-path");
-    const [prependData, checksData] = getAutoCommentData();
-    const { prependMsg } = prependData;
-    const checks = parsePaths(checksData.checks);
+    const { prependMsg, checks } = getAutoCommentData();
     const token = core.getInput("token");
     const octokit = github.getOctokit(token);
     const context = github.context;

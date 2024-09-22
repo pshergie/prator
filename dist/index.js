@@ -6309,7 +6309,7 @@ module.exports.types = {
   bool:      __nccwpck_require__(3388),
   int:       __nccwpck_require__(3135),
   merge:     __nccwpck_require__(2504),
-  omap:      __nccwpck_require__(3620),
+  omap:      __nccwpck_require__(8859),
   seq:       __nccwpck_require__(7134),
   str:       __nccwpck_require__(6048)
 };
@@ -9329,7 +9329,7 @@ module.exports = (__nccwpck_require__(8716).extend)({
   ],
   explicit: [
     __nccwpck_require__(1377),
-    __nccwpck_require__(3620),
+    __nccwpck_require__(8859),
     __nccwpck_require__(4967),
     __nccwpck_require__(2217)
   ]
@@ -10097,7 +10097,7 @@ module.exports = new Type('tag:yaml.org,2002:null', {
 
 /***/ }),
 
-/***/ 3620:
+/***/ 8859:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -37402,6 +37402,8 @@ const getAutoCommentData = () => {
     throw new Error('Checks data is not correct. ' + refMsg);
   }
 
+  console.log('commentData', commentData);
+
   return commentData;
 };
 
@@ -37431,30 +37433,6 @@ const fetchComments = async (context, pullNumber, octokit) => {
 };
 
 /* harmony default export */ const utils_fetchComments = (fetchComments);
-
-;// CONCATENATED MODULE: ./src/utils/splitPaths.js
-const splitPaths = paths => paths ? paths.split(",").map((p) => p.trim()) : undefined;
-
-/* harmony default export */ const utils_splitPaths = (splitPaths);
-
-;// CONCATENATED MODULE: ./src/utils/parsePaths.js
-
-
-// configs не массив
-const parsePaths = config => {
-  if (!config.allCasesPaths && !config.modifiedOnlyPaths && !config.addedOnlyPaths && !config.deletedOnlyPaths) {
-    throw new Error(`The config should have at least one path. Config #${i + 1}.${config.message ? ' Message:' + config.message : ''} `);
-  };
-
-  return {
-    allCasesPaths: utils_splitPaths(config.allCasesPaths),
-    modifiedOnlyPaths: utils_splitPaths(config.modifiedOnlyPaths),
-    addedOnlyPaths: utils_splitPaths(config.addedOnlyPaths),
-    deletedOnlyPaths: utils_splitPaths(config.deletedOnlyPaths),
-  }
-}
-
-/* harmony default export */ const utils_parsePaths = (parsePaths);
 
 ;// CONCATENATED MODULE: ./src/utils/fetchDiffFromFile.js
 const fetchDiffFromFile = (type) => fs.readFileSync(`${artifactPath}pr_files_diff_${type}.txt`, "utf8").split('\n').filter(Boolean);
@@ -37561,9 +37539,7 @@ const github = __nccwpck_require__(3134);
 async function run() {
   try {
     const artifactPath = src_core.getInput("artifact-path");
-    const [prependData, checksData] = utils_getAutoCommentData();
-    const { prependMsg } = prependData;
-    const checks = utils_parsePaths(checksData.checks);
+    const { prependMsg, checks } = utils_getAutoCommentData();
     const token = src_core.getInput("token");
     const octokit = github.getOctokit(token);
     const context = github.context;
