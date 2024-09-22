@@ -37432,6 +37432,35 @@ const fetchComments = async (context, pullNumber, octokit) => {
 
 /* harmony default export */ const utils_fetchComments = (fetchComments);
 
+;// CONCATENATED MODULE: ./src/utils/splitPaths.js
+const splitPaths = paths => paths ? paths.split(",").map((p) => p.trim()) : undefined;
+
+/* harmony default export */ const utils_splitPaths = (splitPaths);
+
+;// CONCATENATED MODULE: ./src/utils/parsePaths.js
+
+
+// configs не массив
+const parsePaths = config => {
+  if (!config.allCasesPaths && !config.modifiedOnlyPaths && !config.addedOnlyPaths && !config.deletedOnlyPaths) {
+    throw new Error(`The config should have at least one path. Config #${i + 1}.${config.message ? ' Message:' + config.message : ''} `);
+  };
+
+  return {
+    allCasesPaths: utils_splitPaths(config.allCasesPaths),
+    modifiedOnlyPaths: utils_splitPaths(config.modifiedOnlyPaths),
+    addedOnlyPaths: utils_splitPaths(config.addedOnlyPaths),
+    deletedOnlyPaths: utils_splitPaths(config.deletedOnlyPaths),
+  }
+}
+
+/* harmony default export */ const utils_parsePaths = (parsePaths);
+
+;// CONCATENATED MODULE: ./src/utils/fetchDiffFromFile.js
+const fetchDiffFromFile = (type) => fs.readFileSync(`${artifactPath}pr_files_diff_${type}.txt`, "utf8").split('\n').filter(Boolean);
+
+/* harmony default export */ const utils_fetchDiffFromFile = (fetchDiffFromFile);
+
 ;// CONCATENATED MODULE: ./src/utils/checkDiff.js
 const { minimatch } = __nccwpck_require__(5072);
 
@@ -37490,34 +37519,32 @@ const shouldMessageBePosted = (
 
 /* harmony default export */ const utils_shouldMessageBePosted = (shouldMessageBePosted);
 
-;// CONCATENATED MODULE: ./src/utils/splitPaths.js
-const splitPaths = paths => paths ? paths.split(",").map((p) => p.trim()) : undefined;
-
-/* harmony default export */ const utils_splitPaths = (splitPaths);
-
-;// CONCATENATED MODULE: ./src/utils/parsePaths.js
+;// CONCATENATED MODULE: ./src/utils/prepareMessages.js
 
 
-const parsePaths = configs => configs.map((config, i) => {
-  if (!config.allCasesPaths && !config.modifiedOnlyPaths && !config.addedOnlyPaths && !config.deletedOnlyPaths) {
-    throw new Error(`The config should have at least one path. Config #${i + 1}.${config.message ? ' Message:' + config.message : ''} `);
-  };
+const prepareMessages = ((config, comments, diff, messagesToPost = []) => {
+  let paths;
+  const _messagesToPost = messagesToPost;
 
-  return {
-    allCasesPaths: utils_splitPaths(config.allCasesPaths),
-    modifiedOnlyPaths: utils_splitPaths(config.modifiedOnlyPaths),
-    addedOnlyPaths: utils_splitPaths(config.addedOnlyPaths),
-    deletedOnlyPaths: utils_splitPaths(config.deletedOnlyPaths),
-    message: config.message
+  if (config.paths === 'string') {
+    paths = [config.paths];
+  } else if (Array.isArray(config.paths) && config.paths.length > 0) {
+    paths = config.paths;
+  } else {
+    console.error('"paths" should be either string or array:', config.paths, 'type:', typeof config.paths);
+    return;
   }
+
+  paths.map(path => {
+    if (utils_shouldMessageBePosted(path, message, diff, comments, _messagesToPost)) {
+      _messagesToPost.push(message);
+    }
+  })
+
+  return _messagesToPost;
 })
 
-/* harmony default export */ const utils_parsePaths = (parsePaths);
-
-;// CONCATENATED MODULE: ./src/utils/fetchDiffFromFile.js
-const fetchDiffFromFile = (type) => fs.readFileSync(`${artifactPath}pr_files_diff_${type}.txt`, "utf8").split('\n').filter(Boolean);
-
-/* harmony default export */ const utils_fetchDiffFromFile = (fetchDiffFromFile);
+/* harmony default export */ const utils_prepareMessages = (prepareMessages);
 
 ;// CONCATENATED MODULE: ./src/index.js
 const src_fs = __nccwpck_require__(7147);
@@ -37542,14 +37569,14 @@ async function run() {
     const context = github.context;
     const pullNumber = parseInt(src_fs.readFileSync(artifactPath + 'pr_number.txt', "utf8"), 10);
     const comments = await utils_fetchComments(context, pullNumber, octokit);
-    const diffPathList = ['all', 'mod', 'add', 'del'].map(type => utils_fetchDiffFromFile(type));
-    const messagesToPost = [];
+    const diffTypeList = ['all', 'mod', 'add', 'del'];
+    const diffPathList = diffTypeList.map(type => utils_fetchDiffFromFile(type));
 
-    checks.map(({ message, ...pathCases }) => pathCases.map((pathCase, i) => {
-      if (utils_shouldMessageBePosted(pathCase, message, diffPathList[i], comments, messagesToPost)) {
-        messagesToPost.push(message);
-      }
-    }))
+    const allCasesMessages = checks.allCasesPaths.map(config => utils_prepareMessages(config, 'all', comments, diffPathList[diffTypeList.indexOf(diffType)]));
+    const modifiedOnlyMessages = checks.modifiedOnlyPaths.map(config => utils_prepareMessages(config, 'mod', comments, diffPathList[diffTypeList.indexOf(diffType)], allCasesMessages));
+    const addedOnlyMessages = checks.modifiedOnlyPaths.map(config => utils_prepareMessages(config, 'mod', comments, diffPathList[diffTypeList.indexOf(diffType)], [...allCasesMessages, ...modifiedOnlyMessages]));
+    const deletedOnlyMessages = checks.deletedOnlyPaths.map(config => utils_prepareMessages(config, 'mod', comments, diffPathList[diffTypeList.indexOf(diffType)], [...allCasesMessages, ...modifiedOnlyMessages, ...addedOnlyMessages]));
+    const messagesToPost = [...allCasesMessages, ...modifiedOnlyMessages, ...addedOnlyMessages, ...deletedOnlyMessages];
 
     if (messagesToPost.length > 0) {
       await utils_postComment(prependMsg, messagesToPost, pullNumber, context, octokit);
