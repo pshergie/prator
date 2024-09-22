@@ -19,7 +19,7 @@ async function run() {
     const pullNumber = parseInt(fs.readFileSync(artifactPath + 'pr_number.txt', "utf8"), 10);
     const comments = await fetchComments(context, pullNumber, octokit);
     const diffTypeList = ['all', 'mod', 'add', 'del'];
-    const diffPathList = diffTypeList.map(type => fetchDiffFromFile(type));
+    const diffPathList = diffTypeList.map(type => fetchDiffFromFile(type, artifactPath));
 
     const allCasesMessages = checks.allCasesPaths.map(config => prepareMessages(config, 'all', comments, diffPathList[diffTypeList.indexOf(diffType)]));
     const modifiedOnlyMessages = checks.modifiedOnlyPaths.map(config => prepareMessages(config, 'mod', comments, diffPathList[diffTypeList.indexOf(diffType)], allCasesMessages));

@@ -37437,7 +37437,7 @@ const fetchComments = async (context, pullNumber, octokit) => {
 ;// CONCATENATED MODULE: ./src/utils/fetchDiffFromFile.js
 const fetchDiffFromFile_fs = __nccwpck_require__(7147);
 
-const fetchDiffFromFile = (type) => fetchDiffFromFile_fs.readFileSync(`${artifactPath}pr_files_diff_${type}.txt`, "utf8").split('\n').filter(Boolean);
+const fetchDiffFromFile = (type, artifactPath) => fetchDiffFromFile_fs.readFileSync(`${artifactPath}pr_files_diff_${type}.txt`, "utf8").split('\n').filter(Boolean);
 
 /* harmony default export */ const utils_fetchDiffFromFile = (fetchDiffFromFile);
 
@@ -37548,7 +37548,7 @@ async function run() {
     const pullNumber = parseInt(src_fs.readFileSync(artifactPath + 'pr_number.txt', "utf8"), 10);
     const comments = await utils_fetchComments(context, pullNumber, octokit);
     const diffTypeList = ['all', 'mod', 'add', 'del'];
-    const diffPathList = diffTypeList.map(type => utils_fetchDiffFromFile(type));
+    const diffPathList = diffTypeList.map(type => utils_fetchDiffFromFile(type, artifactPath));
 
     const allCasesMessages = checks.allCasesPaths.map(config => utils_prepareMessages(config, 'all', comments, diffPathList[diffTypeList.indexOf(diffType)]));
     const modifiedOnlyMessages = checks.modifiedOnlyPaths.map(config => utils_prepareMessages(config, 'mod', comments, diffPathList[diffTypeList.indexOf(diffType)], allCasesMessages));
