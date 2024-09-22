@@ -37550,10 +37550,10 @@ async function run() {
     const diffTypeList = ['all', 'mod', 'add', 'del'];
     const diffPathList = diffTypeList.map(type => utils_fetchDiffFromFile(type, artifactPath));
 
-    const allCasesMessages = checks.allCasesPaths.map(config => utils_prepareMessages(config, 'all', comments, diffPathList[diffTypeList.indexOf(diffType)]));
-    const modifiedOnlyMessages = checks.modifiedOnlyPaths.map(config => utils_prepareMessages(config, 'mod', comments, diffPathList[diffTypeList.indexOf(diffType)], allCasesMessages));
-    const addedOnlyMessages = checks.modifiedOnlyPaths.map(config => utils_prepareMessages(config, 'mod', comments, diffPathList[diffTypeList.indexOf(diffType)], [...allCasesMessages, ...modifiedOnlyMessages]));
-    const deletedOnlyMessages = checks.deletedOnlyPaths.map(config => utils_prepareMessages(config, 'mod', comments, diffPathList[diffTypeList.indexOf(diffType)], [...allCasesMessages, ...modifiedOnlyMessages, ...addedOnlyMessages]));
+    const allCasesMessages = checks.allCasesPaths.map(config => utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('all')]));
+    const modifiedOnlyMessages = checks.modifiedOnlyPaths.map(config => utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('mod')], allCasesMessages));
+    const addedOnlyMessages = checks.modifiedOnlyPaths.map(config => utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('add')], [...allCasesMessages, ...modifiedOnlyMessages]));
+    const deletedOnlyMessages = checks.deletedOnlyPaths.map(config => utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('del')], [...allCasesMessages, ...modifiedOnlyMessages, ...addedOnlyMessages]));
     const messagesToPost = [...allCasesMessages, ...modifiedOnlyMessages, ...addedOnlyMessages, ...deletedOnlyMessages];
 
     if (messagesToPost.length > 0) {
