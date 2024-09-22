@@ -13,8 +13,8 @@ const prepareMessages = ((config, comments, diff, messagesToPost = []) => {
   }
 
   paths.map(path => {
-    if (shouldMessageBePosted(path, message, diff, comments, _messagesToPost)) {
-      _messagesToPost.push(message);
+    if (shouldMessageBePosted(path, config.message, diff, comments, _messagesToPost)) {
+      _messagesToPost.push(config.message);
     }
   })
 
