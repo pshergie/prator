@@ -37506,13 +37506,12 @@ const prepareMessages = ((config, comments, diff, messagesToPost = []) => {
   let paths;
   const _messagesToPost = messagesToPost;
 
-  if (config.paths === 'string') {
+  if (typeof config.paths === 'string') {
     paths = [config.paths];
   } else if (Array.isArray(config.paths) && config.paths.length > 0) {
     paths = config.paths;
   } else {
-    console.error('"paths" should be either string or array:', config.paths, 'type:', typeof config.paths);
-    return;
+    throw new Error('"paths" should be either string or array:', config.paths, 'type:', typeof config.paths);
   }
 
   paths.map(path => {
