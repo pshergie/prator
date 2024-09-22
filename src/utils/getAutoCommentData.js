@@ -23,6 +23,8 @@ const getAutoCommentData = () => {
     throw new Error('Checks data is not correct. ' + refMsg);
   }
 
+  console.log('commentData', commentData);
+
   return commentData;
 };
 
