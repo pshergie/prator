@@ -37552,10 +37552,10 @@ async function run() {
     const diffTypeList = ['all', 'mod', 'add', 'del'];
     const diffPathList = diffTypeList.map(type => utils_fetchDiffFromFile(type, artifactPath));
 
-    const allCasesMessages = checks.allCasesPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('all')], msgToPost)], []);
-    const modifiedOnlyMessages = checks.modifiedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('mod')], msgToPost)], allCasesMessages);
-    const addedOnlyMessages = checks.addedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('add')]), msgToPost], [...allCasesMessages, ...modifiedOnlyMessages]);
-    const deletedOnlyMessages = checks.deletedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('del')]), msgToPost], [...allCasesMessages, ...modifiedOnlyMessages, ...addedOnlyMessages]);
+    const allCasesMessages = await checks.allCasesPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('all')], msgToPost)], []);
+    const modifiedOnlyMessages = await checks.modifiedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('mod')], msgToPost)], allCasesMessages);
+    const addedOnlyMessages = await checks.addedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('add')]), msgToPost], [...allCasesMessages, ...modifiedOnlyMessages]);
+    const deletedOnlyMessages = await checks.deletedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('del')]), msgToPost], [...allCasesMessages, ...modifiedOnlyMessages, ...addedOnlyMessages]);
 
     // const modifiedOnlyMessages = checks.modifiedOnlyPaths.map(config => prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('mod')], allCasesMessages));
     // const addedOnlyMessages = checks.addedOnlyPaths.map(config => prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('add')], [...allCasesMessages, ...modifiedOnlyMessages]));
