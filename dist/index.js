@@ -37484,6 +37484,8 @@ const shouldMessageBePosted = (
     return false;
   }
 
+  console.log('paths', paths);
+  console.log('diffFilesPaths', diffFilesPaths)
   console.log('messagesToPost', messagesToPost);
   console.log('message', message)
 
@@ -37505,9 +37507,9 @@ const shouldMessageBePosted = (
 ;// CONCATENATED MODULE: ./src/utils/prepareMessages.js
 
 
-const prepareMessages = ((config, comments, diff, messagesToPost = []) => {
+const prepareMessages = ((config, comments, diff, messagesToPost) => {
   let paths;
-  const _messagesToPost = messagesToPost;
+  const _messagesToPost = messagesToPost ? [...messagesToPost] : [];
 
   if (typeof config.paths === 'string') {
     paths = [config.paths];

@@ -1,8 +1,8 @@
 import shouldMessageBePosted from "./shouldMessageBePosted.js"
 
-const prepareMessages = ((config, comments, diff, messagesToPost = []) => {
+const prepareMessages = ((config, comments, diff, messagesToPost) => {
   let paths;
-  const _messagesToPost = messagesToPost;
+  const _messagesToPost = messagesToPost ? [...messagesToPost] : [];
 
   if (typeof config.paths === 'string') {
     paths = [config.paths];

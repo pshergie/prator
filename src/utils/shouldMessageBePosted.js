@@ -14,6 +14,8 @@ const shouldMessageBePosted = (
     return false;
   }
 
+  console.log('paths', paths);
+  console.log('diffFilesPaths', diffFilesPaths)
   console.log('messagesToPost', messagesToPost);
   console.log('message', message)
 
