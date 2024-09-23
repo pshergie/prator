@@ -37551,16 +37551,18 @@ async function run() {
     const comments = await utils_fetchComments(context, pullNumber, octokit);
     const diffTypeList = ['all', 'mod', 'add', 'del'];
     const diffPathList = diffTypeList.map(type => utils_fetchDiffFromFile(type, artifactPath));
+    let messagesToPost = []
 
-    const allCasesMessages = await checks.allCasesPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('all')], msgToPost)], []);
-    const modifiedOnlyMessages = await checks.modifiedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('mod')], msgToPost)], allCasesMessages);
-    const addedOnlyMessages = await checks.addedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('add')]), msgToPost], [...allCasesMessages, ...modifiedOnlyMessages]);
-    const deletedOnlyMessages = await checks.deletedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('del')]), msgToPost], [...allCasesMessages, ...modifiedOnlyMessages, ...addedOnlyMessages]);
+    messageList = await checks.allCasesPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('all')], msgToPost)], messageList);
+    messageList = await checks.modifiedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('mod')], msgToPost)], messageList);
+    messageList = await checks.addedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('add')]), msgToPost], messageList);
+    messageList = await checks.deletedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...utils_prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('del')]), msgToPost], messageList);
 
     // const modifiedOnlyMessages = checks.modifiedOnlyPaths.map(config => prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('mod')], allCasesMessages));
     // const addedOnlyMessages = checks.addedOnlyPaths.map(config => prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('add')], [...allCasesMessages, ...modifiedOnlyMessages]));
     // const deletedOnlyMessages = checks.deletedOnlyPaths.map(config => prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('del')], [...allCasesMessages, ...modifiedOnlyMessages, ...addedOnlyMessages]));
-    const messagesToPost = [...allCasesMessages, ...modifiedOnlyMessages, ...addedOnlyMessages, ...deletedOnlyMessages];
+
+    console.log('messages to post', messagesToPost);
 
     if (messagesToPost.length > 0) {
       await utils_postComment(prependMsg, messagesToPost, pullNumber, context, octokit);
