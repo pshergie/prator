@@ -25,7 +25,7 @@ async function run() {
     messagesToPost = await checks.allCasesPaths.reduce((msgToPost, config) => [...msgToPost, ...prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('all')], msgToPost)], messagesToPost);
     messagesToPost = await checks.modifiedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('mod')], msgToPost)], messagesToPost);
     messagesToPost = await checks.addedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('add')], msgToPost)], messagesToPost);
-    messagesToPost = await checks.deletedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('del')]), msgToPost], messagesToPost);
+    messagesToPost = await checks.deletedOnlyPaths.reduce((msgToPost, config) => [...msgToPost, ...prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('del')], msgToPost)], messagesToPost);
 
     // const modifiedOnlyMessages = checks.modifiedOnlyPaths.map(config => prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('mod')], allCasesMessages));
     // const addedOnlyMessages = checks.addedOnlyPaths.map(config => prepareMessages(config, comments, diffPathList[diffTypeList.indexOf('add')], [...allCasesMessages, ...modifiedOnlyMessages]));
