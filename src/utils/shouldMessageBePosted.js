@@ -14,11 +14,14 @@ const shouldMessageBePosted = (
     return false;
   }
 
-  console.log('')
+  console.log('');
+  console.log('====================================')
   console.log('paths', paths);
   console.log('diffFilesPaths', diffFilesPaths)
   console.log('messagesToPost', messagesToPost);
   console.log('message', message);
+  console.log('areTargetPathsChanged', areTargetPathsChanged);
+  console.log('');
 
   if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
