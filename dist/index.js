@@ -37402,7 +37402,7 @@ const getAutoCommentData = () => {
     throw new Error('Checks data is not correct. ' + refMsg);
   }
 
-  console.log('commentData', commentData);
+  console.log('commentData', JSON.stringify(commentData, null, 4));
 
   return commentData;
 };
@@ -37484,10 +37484,8 @@ const shouldMessageBePosted = (
     return false;
   }
 
-  console.log('');
   console.log('messagesToPost', messagesToPost);
   console.log('message', message)
-  console.log('');
 
   if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
