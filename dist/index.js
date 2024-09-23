@@ -37484,6 +37484,9 @@ const shouldMessageBePosted = (
     return false;
   }
 
+  console.log('comments', comments);
+  console.log('message', message);
+
   if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
       comment =>
