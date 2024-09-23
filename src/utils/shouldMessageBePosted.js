@@ -14,8 +14,10 @@ const shouldMessageBePosted = (
     return false;
   }
 
-  console.log('comments', comments);
-  console.log('message', message);
+  console.log('');
+  console.log('messagesToPost', messagesToPost);
+  console.log('message', message)
+  console.log('');
 
   if (areTargetPathsChanged) {
     const isCommentExisting = comments.some(
