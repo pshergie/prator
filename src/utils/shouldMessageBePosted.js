@@ -10,7 +10,7 @@ const shouldMessageBePosted = (
 ) => {
   let areTargetPathsChanged = checkDiff(paths, diffFilesPaths);
 
-  if (!pathCase || messagesToPost.includes(message)) {
+  if (!paths || messagesToPost.includes(message)) {
     return false;
   }
 
