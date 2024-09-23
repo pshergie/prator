@@ -12,11 +12,9 @@ const prepareMessages = ((config, comments, diff, messagesToPost = []) => {
     throw new Error('"paths" should be either string or array:', config.paths, 'type:', typeof config.paths);
   }
 
-  paths.map(path => {
-    if (shouldMessageBePosted(path, config.message, diff, comments, _messagesToPost)) {
-      _messagesToPost.push(config.message);
-    }
-  })
+  if (shouldMessageBePosted(paths, config.message, diff, comments, _messagesToPost)) {
+    _messagesToPost.push(config.message);
+  }
 
   return _messagesToPost;
 })
