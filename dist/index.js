@@ -37527,6 +37527,8 @@ const prepareMessages = ((config, comments, diff, messagesToPost) => {
     _messagesToPost.push(config.message);
   }
 
+  console.log('return _messagesToPost', _messagesToPost)
+
   return _messagesToPost;
 })
 
