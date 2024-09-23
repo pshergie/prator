@@ -37500,6 +37500,8 @@ const shouldMessageBePosted = (
         utils_compareMarkdown(comment.body, message),
     );
 
+    console.log('isCommentExisting', isCommentExisting)
+
     return isCommentExisting ? false : true;
   };
 
